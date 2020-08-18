@@ -10,7 +10,7 @@ class TricksController extends AbstractController
 {
 
     /**
-     * @Route("/")
+     * @Route("/", name="app_homepage")
      */
     public function homepage()
     {
@@ -18,12 +18,16 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/tricks/{slug}")
+     * @Route("/tricks/{slug}", name="app_trick_show")
      */
     public function show($slug)
     {
+        $name = ucwords(str_replace('-', ' ', $slug));
+
+        $trick->name = $name;
+
         return $this->render('tricks/show.html.twig', [
-            'trick' => ucwords(str_replace('-', ' ', $slug))
+            'trick' => $trick
         ]);
     }
 
