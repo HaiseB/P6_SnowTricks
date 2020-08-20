@@ -1,14 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Trick : {{ trick.name }}
+    Trick : {{ trick }}
 {% endblock %}
 
 {% block body %}
-<h1>{{ trick.name }}</h1>
+<h1>{{ trick }}</h1>
 
 <div>
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus inventore possimus nemo eveniet recusandae quisquam perferendis in veritatis, officiis iste? Repudiandae amet accusantium quis eum voluptate porro deleniti commodi totam?
 </div>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/d2jEdNaYpcM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 {% endblock %}

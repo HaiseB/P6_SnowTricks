@@ -24,7 +24,7 @@ class TricksController extends AbstractController
     {
         $name = ucwords(str_replace('-', ' ', $slug));
 
-        $trick->name = $name;
+        $trick = $name;
 
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick
