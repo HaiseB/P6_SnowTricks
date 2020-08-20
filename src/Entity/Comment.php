@@ -24,7 +24,7 @@ class Comment
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=trick::class, inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;

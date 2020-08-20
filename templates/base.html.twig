@@ -2,11 +2,75 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>{% block title %}Snowtricks{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+            <link href="{{ asset('css/materialize.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
+            <link href="{{ asset('css/app.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <nav class="white" role="navigation">
+            <div class="nav-wrapper container">
+                <a id="logo-container" href="{{ path('app_homepage') }}" class="brand-logo">Snowtricks</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="#">Sign up</a></li>
+                </ul>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="#">Sign in</a></li>
+                </ul>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="{{ path('app_homepage') }}">Home</a></li>
+                </ul>
+                <ul id="nav-mobile" class="sidenav">
+                    <li><a href="{{ path('app_homepage') }}">Home</a></li>
+                    <li><a href="#">Sign in</a></li>
+                    <li><a href="#">Sign up</a></li>
+                </ul>
+                <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            </div>
+        </nav>
+        <div class="container">{% block body %}{% endblock %}</div>
+        <footer class="page-footer teal">
+            <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                <h5 class="white-text">Lorem ipsum dolor sit amet.</h5>
+                <p class="grey-text text-lighten-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut non possimus placeat consequuntur totam dolores repudiandae deleniti maxime velit, doloremque hic iusto. Dolore, recusandae. At et aliquid ipsa asperiores sequi.</p>
+
+
+                </div>
+                <div class="col l3 s12">
+                <h5 class="white-text">Lorem ipsum dolor.</h5>
+                <ul>
+                    <li><a class="white-text" href="#!">Lorem</a></li>
+                    <li><a class="white-text" href="#!">Lorem</a></li>
+                    <li><a class="white-text" href="#!">Lorem</a></li>
+                    <li><a class="white-text" href="#!">Lorem</a></li>
+                </ul>
+                </div>
+                <div class="col l3 s12">
+                <h5 class="white-text">Lorem ipsum.</h5>
+                <ul>
+                    <li><a class="white-text" href="#!">Lorem</a></li>
+                    <li><a class="white-text" href="#!">Lorem</a></li>
+                    <li><a class="white-text" href="#!">Lorem</a></li>
+                    <li><a class="white-text" href="#!">Lorem</a></li>
+                </ul>
+                </div>
+            </div>
+            </div>
+        </footer>
+        {% block javascripts %}
+            <script
+                src="http://code.jquery.com/jquery-3.5.1.js"
+                integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+                crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+            <script src="{{ asset('js/materialize.js') }}"></script>
+            <script src="{{ asset('js/init.js') }}"></script>
+        {% endblock %}
     </body>
 </html>
