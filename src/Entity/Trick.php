@@ -25,14 +25,14 @@ class Trick
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=16777215)
+     * @ORM\Column(type="text")
      */
     private $content;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isOnline;
+    private $isOnline = true;
 
     /**
      * @ORM\Column(type="datetime")
@@ -47,7 +47,7 @@ class Trick
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDeleted;
+    private $isDeleted = false;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks")

@@ -72,7 +72,7 @@ class User implements UserInterface
     private $isDeleted;
 
     /**
-     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="userId")
+     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="user")
      */
     private $tricks;
 

@@ -5,7 +5,38 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Nouveau trick</h1>
+    <div id="index-banner" class="parallax-container">
+        <div class="section no-pad-bot">
+            <div class="container">
+                <br><br>
+                <h1 class="header center teal-text text-lighten-2">Nouveau trick</h1>
+                <div class="row center">
+                    <h5 class="header col s12 light">Merci de partager vos connaissances! Les commentaires d'autres utilisateurs permetteront d’améliorer votre page de trick. o(^-^)o</h5>
+                </div>
+            </div>
+        </div>
+        <div class="parallax"><img src="{{ asset('background/background1.jpg') }}" alt="Unsplashed background img 1"></div>
+    </div>
 
-    {{ form(formTrick) }}
+    <hr>
+    <h2>TODO : Partie gestion images / vidéos liés</h2>
+    <hr>
+
+    {{ form_start(trickForm) }}
+        {{ form_widget(trickForm) }}
+
+
+        <div class="switch">
+            <label>
+              Off
+              <input type="checkbox">
+              <span class="lever"></span>
+              On
+            </label>
+          </div>
+
+        <br>
+        <button type="submit" class="btn waves-effect waves-light">Confimer la création</button>
+    {{ form_end(trickForm) }}
+
 {% endblock %}

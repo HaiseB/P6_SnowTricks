@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
+use App\Form\TrickFormType;
+use App\Repository\TrickRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TrickController extends AbstractController
@@ -14,36 +16,42 @@ class TrickController extends AbstractController
     /**
      * @Route("/", name="app_homepage")
      */
-    public function homepage()
+    public function homepage(TrickRepository $trickRepository)
     {
+        $tricks = $trickRepository->findAll();
+
         return $this->render(
-            'trick/homepage.html.twig'
+            'trick/homepage.html.twig', [
+            'tricks' => $tricks
+            ]
         );
     }
 
     /**
-     * @Route("/trick/new", name="app_trick_create")
+     * @Route("/trick/new", name="app_trick_new")
      */
-    public function create()
+    public function new(EntityManagerInterface $em, Request $request)
     {
-        $trick = new Trick();
+        $form = $this->createForm(TrickFormType::class);
 
-        $form = $this->createFormBuilder($trick)
-            ->add('name')
-            ->add('content', TextareaType::class, [
-                'attr' => ['class' => 'tinymce'],
-            ])
-            ->add('is_online', ChoiceType::class, [
-                'choices' => [
-                    'In Stock' => true,
-                    'Out of Stock' => false,
-                ],
-            ])
-            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Trick $trick */
+            $trick = $form->getData();
 
-        return $this->render('trick/create.html.twig', [
-            'formTrick' => $form->createView()
-        ]);
+            dd($trick);
+
+            $em->persist($trick);
+            $em->flush();
+
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        return $this->render(
+            'trick/create.html.twig', [
+            'trickForm' => $form->createView()
+            ]
+        );
     }
 
     /**
