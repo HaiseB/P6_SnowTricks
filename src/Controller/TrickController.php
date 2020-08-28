@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
+use App\Entity\User;
+use App\Entity\Tag;
 use App\Form\TrickFormType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,13 +41,18 @@ class TrickController extends AbstractController
             /** @var Trick $trick */
             $trick = $form->getData();
 
-            dd($trick);
+            $timestamp = new \DateTime();
+            $trick->setCreatedAt($timestamp);
+            $trick->setUpdatedAt($timestamp);
 
-            $em->persist($trick);
-            $em->flush();
+            $user = $em->getRepository(User::class)->find(41);
+            $trick->setUser($user);
 
-            return $this->redirectToRoute('app_homepage');
-        }
+        $em->persist($trick);
+        $em->flush();
+
+        return $this->redirectToRoute('app_trick_show', ['id' => $trick->getId()]);
+    }
 
         return $this->render(
             'trick/create.html.twig', [
@@ -55,14 +62,31 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}/{slug}", name="app_trick_show")
+     * @Route("/trick/{id}/modify", name="app_trick_modify")
      */
-    public function show(Trick $trick, $id, $slug)
+    public function modify(EntityManagerInterface $em, Request $request, Trick $trick, $id)
     {
-        $name = ucwords(str_replace('-', ' ', $slug));
+        //@TODO : modify function
+    }
 
-        $trick = $name;
+    /**
+     * @Route("/trick/{id}/delete", name="app_trick_delete")
+     */
+    public function delete(EntityManagerInterface $em, Trick $trick, $id)
+    {
+            $trick->setIsDeleted(true);
 
+            $em->persist($trick);
+            $em->flush();
+
+            return $this->redirectToRoute('app_homepage');
+    }
+
+    /**
+     * @Route("/trick/{id}", name="app_trick_show")
+     */
+    public function show(Trick $trick, $id)
+    {
         return $this->render(
             'trick/show.html.twig', [
                 'trick' => $trick

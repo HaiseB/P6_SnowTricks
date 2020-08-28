@@ -19,24 +19,53 @@
     </div>
 
     <hr>
-    <h2>TODO : Partie gestion images / vidéos liés</h2>
+    <h2>@TODO : Partie gestion images / vidéos liés</h2>
     <hr>
 
     {{ form_start(trickForm) }}
-        {{ form_widget(trickForm) }}
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(trickForm) }}
+        </div>
 
+        <div class="row">
+            {{ form_row(trickForm.name) }}
+        </div>
+        <div class="row">
+            {{ form_row(trickForm.content) }}
+        </div>
 
-        <div class="switch">
-            <label>
-              Off
-              <input type="checkbox">
-              <span class="lever"></span>
-              On
-            </label>
-          </div>
+        <div class="row">
+            <div class="input-field col s6">
+                {{ form_row(trickForm.isOnline) }}
+            </div>
+            <div class="input-field col s6">
+                {{ form_row(trickForm.tag) }}
+            </div>
+        </div>
 
-        <br>
-        <button type="submit" class="btn waves-effect waves-light">Confimer la création</button>
+        <div class="">
+            <button type="submit" class="btn waves-effect waves-light .center-align">Confimer la création</button>
+        </div>
+
+        <hr>
+        <label>
+            <input type="checkbox" class="filled-in" checked="checked" />
+            <span>Filled in</span>
+        </label>
+
     {{ form_end(trickForm) }}
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#<script src="https://cdn.tiny.cloud/1/z80yiesiw6qlrl3y4gzy6j3zqw7ujm1dt0d5e7bjnujmen16/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            language: 'fr_FR',
+            plugins: 'advlist autolink lists link charmap print preview hr anchor pagebreak',
+            toolbar_mode: 'floating',
+        });
+    </script>#}
 {% endblock %}

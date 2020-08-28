@@ -32,7 +32,7 @@ class Trick
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isOnline = true;
+    private $isOnline = false;
 
     /**
      * @ORM\Column(type="datetime")
@@ -87,26 +87,26 @@ class Trick
         return $this->id;
     }
 
-    public function getUserId(): ?int
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(int $userId): self
+    public function setUser(?User $user): self
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getTagId(): ?int
+    public function getTag(): ?Tag
     {
-        return $this->tagId;
+        return $this->tag;
     }
 
-    public function setTagId(int $tagId): self
+    public function setTag(?Tag $tag): self
     {
-        $this->tagId = $tagId;
+        $this->tag = $tag;
 
         return $this;
     }

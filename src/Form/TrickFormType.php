@@ -3,9 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Trick;
+use App\Entity\Tag;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,19 +16,16 @@ class TrickFormType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('content', TextareaType::class, [
-                'attr' => ['class' => 'tinymce'],
-            ])
+            ->add('content')
             ->add('isOnline', CheckboxType::class, [
-                'label'    => 'Show this entry publicly?',
-                'attr' => [
-                    'class' => "filled-in"
-                ]
+                'label'    => 'Afficher en ligne?',
+                'required' => false,
             ])
-            ->add('body', CheckboxType::class, [
-                'attr' => ['class' => 'tinymce'],
-            ]);
-
+            ->add('tag', EntityType::class, [
+                'class' => Tag::class,
+                'choice_label' => 'name',
+                'attr' => ['class' => 'browser-default'],
+            ])
         ;
     }
 
@@ -38,3 +36,4 @@ class TrickFormType extends AbstractType
         ]);
     }
 }
+
