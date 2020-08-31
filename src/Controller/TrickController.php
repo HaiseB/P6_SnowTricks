@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Trick;
 use App\Entity\User;
-use App\Entity\Tag;
 use App\Form\TrickFormType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,9 +33,10 @@ class TrickController extends AbstractController
      */
     public function new(EntityManagerInterface $em, Request $request)
     {
-        $form = $this->createForm(TrickFormType::class);
+        $form = $this->createForm(TrickFormType::class );
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Trick $trick */
             $trick = $form->getData();
@@ -48,11 +48,11 @@ class TrickController extends AbstractController
             $user = $em->getRepository(User::class)->find(41);
             $trick->setUser($user);
 
-        $em->persist($trick);
-        $em->flush();
+            $em->persist($trick);
+            $em->flush();
 
-        return $this->redirectToRoute('app_trick_show', ['id' => $trick->getId()]);
-    }
+            return $this->redirectToRoute('app_trick_show', ['id' => $trick->getId()]);
+        }
 
         return $this->render(
             'trick/create.html.twig', [
@@ -64,15 +64,37 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{id}/modify", name="app_trick_modify")
      */
-    public function modify(EntityManagerInterface $em, Request $request, Trick $trick, $id)
+    public function modify(EntityManagerInterface $em, Request $request, Trick $trick)
     {
-        //@TODO : modify function
+        $form = $this->createForm(TrickFormType::class, $trick );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Trick $trick */
+            $trick = $form->getData();
+
+            $timestamp = new \DateTime();
+            $trick->setUpdatedAt($timestamp);
+
+            $em->persist($trick);
+            $em->flush();
+
+            return $this->redirectToRoute('app_trick_show', ['id' => $trick->getId()]);
+        }
+
+        return $this->render(
+            'trick/modify.html.twig', [
+                'trickForm' => $form->createView(),
+                'trick' => $trick
+            ]
+        );
     }
 
     /**
      * @Route("/trick/{id}/delete", name="app_trick_delete")
      */
-    public function delete(EntityManagerInterface $em, Trick $trick, $id)
+    public function delete(EntityManagerInterface $em, Trick $trick)
     {
             $trick->setIsDeleted(true);
 
@@ -85,7 +107,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{id}", name="app_trick_show")
      */
-    public function show(Trick $trick, $id)
+    public function show(Trick $trick)
     {
         return $this->render(
             'trick/show.html.twig', [
