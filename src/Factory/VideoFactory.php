@@ -25,7 +25,7 @@ final class VideoFactory extends ModelFactory
 
         return [
             'url' => $faker->lexify('???????????'),
-            'isDeleted' => rand(0, 9) < 8 ? 1  : 0,
+            'isDeleted' => rand(0, 9) > 8 ? 1  : 0,
         ];
     }
 

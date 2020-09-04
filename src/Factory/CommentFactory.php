@@ -25,7 +25,7 @@ final class CommentFactory extends ModelFactory
 
         return [
             'content' => $faker->sentence(20),
-            'isDeleted' => rand(0, 9) < 8 ? 1  : 0,
+            'isDeleted' => rand(0, 9) > 8 ? 1  : 0,
         ];
     }
 

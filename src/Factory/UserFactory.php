@@ -30,7 +30,7 @@ final class UserFactory extends ModelFactory
             'email' => $faker->email,
             'token' => '',
             'isRegistered' => rand(0, 9) < 8 ? 1  : 0,
-            'isDeleted' => rand(0, 9) < 8 ? 1  : 0,
+            'isDeleted' => rand(0, 9) > 8 ? 1  : 0,
         ];
     }
 

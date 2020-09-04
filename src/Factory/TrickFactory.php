@@ -27,7 +27,7 @@ final class TrickFactory extends ModelFactory
             'name' => $faker->sentence(2),
             'content' => $faker->text(),
             'isOnline' => (rand(0, 1)),
-            'isDeleted' => rand(0, 9) < 8 ? 1  : 0,
+            'isDeleted' => rand(0, 9) > 8 ? 1  : 0,
         ];
     }
 

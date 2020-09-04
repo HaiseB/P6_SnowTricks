@@ -27,7 +27,7 @@ final class PictureFactory extends ModelFactory
             'path' => '',
             'legend' =>  $faker->sentence(4),
             'isMain' => (rand(0, 1)),
-            'isDeleted' => rand(0, 9) < 8 ? 1  : 0,
+            'isDeleted' => rand(0, 9) > 8 ? 1  : 0,
         ];
     }
 
