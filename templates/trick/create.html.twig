@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Nouveau Trick
+{% endblock %}
+
+{% block body %}
+    <h1>Nouveau trick</h1>
+    <h5>Merci de partager vos connaissances! <br>Les commentaires d'autres utilisateurs permetteront d’améliorer votre page de trick si nécéssaire. o(^-^)o</h5>
+
+    <hr>
+        <h2>@TODO : Partie gestion images / vidéos liés</h2>
+    <hr>
+
+    <fieldset>
+    {{ form_start(trickForm) }}
+        <div class="form-group">
+            {{ form_errors(trickForm) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(trickForm.name) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(trickForm.content) }}
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form_row(trickForm.tag) }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form_row(trickForm.isOnline, {label_attr: {class: 'switch-custom'} }) }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success btn-block">Enregistrer</button>
+    {{ form_end(trickForm) }}
+    </fieldset>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#<script src="https://cdn.tiny.cloud/1/z80yiesiw6qlrl3y4gzy6j3zqw7ujm1dt0d5e7bjnujmen16/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            language: 'fr_FR',
+            plugins: 'advlist autolink lists link charmap print preview hr anchor pagebreak',
+            toolbar_mode: 'floating',
+        });
+    </script>#}
+{% endblock %}
