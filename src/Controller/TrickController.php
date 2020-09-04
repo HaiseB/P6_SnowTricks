@@ -41,11 +41,7 @@ class TrickController extends AbstractController
             /** @var Trick $trick */
             $trick = $form->getData();
 
-            $timestamp = new \DateTime();
-            $trick->setCreatedAt($timestamp);
-            $trick->setUpdatedAt($timestamp);
-
-            $user = $em->getRepository(User::class)->find(41);
+            $user = $em->getRepository(User::class)->find(221);
             $trick->setUser($user);
 
             $em->persist($trick);
@@ -73,9 +69,6 @@ class TrickController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Trick $trick */
             $trick = $form->getData();
-
-            $timestamp = new \DateTime();
-            $trick->setUpdatedAt($timestamp);
 
             $em->persist($trick);
             $em->flush();

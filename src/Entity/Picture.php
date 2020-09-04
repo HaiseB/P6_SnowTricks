@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PictureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=PictureRepository::class)
@@ -40,18 +41,20 @@ class Picture
 
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="update")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDeleted;
+    private $isDeleted = false;
 
     public function getId(): ?int
     {
