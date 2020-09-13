@@ -33,6 +33,8 @@ class TrickController extends AbstractController
      */
     public function new(EntityManagerInterface $em, Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $form = $this->createForm(TrickFormType::class );
 
         $form->handleRequest($request);
@@ -40,9 +42,7 @@ class TrickController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Trick $trick */
             $trick = $form->getData();
-
-            $user = $em->getRepository(User::class)->find(221);
-            $trick->setUser($user);
+            $trick->setUser($this->getUser());
 
             $em->persist($trick);
             $em->flush();
