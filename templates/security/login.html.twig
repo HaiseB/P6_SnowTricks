@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connecte-toi!{% endblock %}
 
 {% block body %}
 <form method="post" class="text-center">
@@ -13,7 +13,7 @@
             You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-    <h1 class="h3 mb-3 font-weight-normal">Connectez-vous! o(^-^)o</h1>
+    <h1 class="h3 mb-3 font-weight-normal">Connecte-toi! o(^-^)o</h1>
     <div class="col-md-4 offset-md-4">
         <div class="form-group">
             <label for="inputUsername">Username</label>
@@ -35,6 +35,6 @@
             Se connecter
         </button>
     </div>
-
+    <span>Pas encore de compte? <a href="{{ path('app_register') }}">S'inscrire</a></span>
 </form>
 {% endblock %}
