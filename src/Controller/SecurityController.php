@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -24,9 +27,7 @@ class SecurityController extends AbstractController
         //     return $this->redirectToRoute('target_path');
         // }
 
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
@@ -43,7 +44,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function register(MailerInterface $mailer, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
         $form = $this->createForm(UserRegistrationFormType::class, $user);
@@ -58,7 +59,17 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // ... do any other work - like sending them an email, etc
+            $email = (new TemplatedEmail())
+                ->from('support@snowtricks.com')
+                ->to($user->getEmail())
+                ->subject('Bienvenue sur Snowtricks!')
+                ->htmlTemplate('email/register.html.twig')
+                ->context([
+                    'user' => $user
+                ]);
+
+            $mailer->send($email);
+
             // maybe set a "flash" success message for the user
 
             return $this->redirectToRoute('app_homepage');
