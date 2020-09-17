@@ -6,6 +6,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -60,8 +61,8 @@ class SecurityController extends AbstractController
             $entityManager->flush();
 
             $email = (new TemplatedEmail())
-                ->from('support@snowtricks.com')
-                ->to($user->getEmail())
+                ->from(new Address('support@snowtricks.com', 'Snowtricks'))
+                ->to(new Address($user->getEmail(), $user->getUsername()))
                 ->subject('Bienvenue sur Snowtricks!')
                 ->htmlTemplate('email/register.html.twig')
                 ->context([
@@ -69,8 +70,7 @@ class SecurityController extends AbstractController
                 ]);
 
             $mailer->send($email);
-
-            // maybe set a "flash" success message for the user
+            //@TODO
 
             return $this->redirectToRoute('app_homepage');
         }

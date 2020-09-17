@@ -1,15 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Rejoins la commu{% endblock %}
+{% block title %}Rejoins la commu!{% endblock %}
 
 {% block body %}
-    <div class="col-sm-12">
+    <div class="text-center">
+        <h1 class="h3 mb-3 font-weight-normal">Rejoins-nous vite!</h1>
         {{ form_start(userForm) }}
-        {{ form_widget(userForm) }}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">
-            Register
+        <div class="col-md-6 offset-md-3">
+            <div class="form-group">
+                {{ form_row(userForm.username) }}
+                {{ form_row(userForm.email) }}
+            </div>
+        </div>
+        <div class="col-md-6 offset-md-3">
+            <div class="form-group">
+                {{ form_row(userForm.password) }}
+            </div>
+        </div>
+        <button class="btn btn-lg btn-primary" type="submit">
+            Créer le compte
         </button>
         {{ form_end(userForm) }}
+    <span><a href="{{ path('app_login') }}">Déjà un compte?</a></span>
     </div>
-    <span>Pas encore de compte? <a href="{{ path('app_register') }}">S'inscrire</a></span>
 {% endblock %}

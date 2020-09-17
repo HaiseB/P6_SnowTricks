@@ -71,7 +71,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Username could not be found.');
+            throw new CustomUserMessageAuthenticationException("Nom d'utilisateur inconnu.");
         }
 
         return $user;
@@ -79,7 +79,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        if ($this->passwordEncoder->isPasswordValid($user, $credentials['password']) === true) {
+            if ($user->getIsRegistered() === true) {
+                if ($user->getIsDeleted() === false) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
