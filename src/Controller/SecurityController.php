@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,8 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 use App\Form\UserRegistrationFormType;
-use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -43,8 +43,8 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="app_register")
-     */
+ * @Route("/register", name="app_register")
+ */
     public function register(MailerInterface $mailer, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
@@ -55,6 +55,9 @@ class SecurityController extends AbstractController
 
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
+
+            $token = bin2hex(random_bytes(60));
+            $user->setToken($token);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -70,7 +73,7 @@ class SecurityController extends AbstractController
                 ]);
 
             $mailer->send($email);
-            //@TODO
+            //@TODO add flash message
 
             return $this->redirectToRoute('app_homepage');
         }
@@ -79,5 +82,19 @@ class SecurityController extends AbstractController
             'security/register.html.twig',
             array('userForm' => $form->createView())
         );
+    }
+
+    /**
+     * @Route("/confirm_register/{id}/{token}", name="app_confirm_register")
+     */
+    public function confirm_register(EntityManagerInterface $em, User $user)
+    {
+        $user->setIsRegistered(true);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_login');
     }
 }

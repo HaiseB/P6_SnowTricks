@@ -5,6 +5,6 @@
 </head>
 <body>
 <h1>Heureux de vous rencontrer {{ user.username }}! :)</h1>
-<a href="{{ url('app_homepage') }}/confirm_register/token={{ user.username }}">Terminer l'inscription</a>
+<a href="{{ url('app_homepage') }}confirm_register/{{ user.id }}/{{ user.token }}">Terminer l'inscription</a>
 </body>
 </html>
