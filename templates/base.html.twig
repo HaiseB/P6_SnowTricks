@@ -21,19 +21,27 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav justify-content-end">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_homepage') }}">Accueil</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">S'inscrire</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Connexion</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_trick_new') }}">Créer un nouveau trick</a>
-                    </li>
+                    {% if app.user %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="30" height="30" class="rounded-circle">
+                            </a>
+                            <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('app_trick_new') }}">Créer un nouveau trick</a>
+                            <a class="dropdown-item" href="{{ path('app_logout') }}">Se déconnecter</a></div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>

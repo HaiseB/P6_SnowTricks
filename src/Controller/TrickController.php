@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use App\Entity\User;
 use App\Form\TrickFormType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,6 +32,8 @@ class TrickController extends AbstractController
      */
     public function new(EntityManagerInterface $em, Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $form = $this->createForm(TrickFormType::class );
 
         $form->handleRequest($request);
@@ -40,9 +41,7 @@ class TrickController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Trick $trick */
             $trick = $form->getData();
-
-            $user = $em->getRepository(User::class)->find(221);
-            $trick->setUser($user);
+            $trick->setUser($this->getUser());
 
             $em->persist($trick);
             $em->flush();
@@ -52,7 +51,7 @@ class TrickController extends AbstractController
 
         return $this->render(
             'trick/create.html.twig', [
-            'trickForm' => $form->createView()
+                'trickForm' => $form->createView()
             ]
         );
     }

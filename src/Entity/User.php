@@ -38,7 +38,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
@@ -48,14 +48,14 @@ class User implements UserInterface
     private $picturePath;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $token;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isRegistered;
+    private $isRegistered = false;
 
     /**
      * @ORM\Column(type="datetime")

@@ -23,10 +23,14 @@ final class UserFactory extends ModelFactory
     {
         $faker = \Faker\Factory::create("fr_FR");
 
+        //@TODO appeler la méthode de security
+        $password = 'toto';
+        $passwordEncoded = password_hash($password, PASSWORD_BCRYPT);
+
         return [
             'username' => $faker->username,
             'roles' => [],
-            'password' => $faker->word(10),
+            'password' => $passwordEncoded,
             'email' => $faker->email,
             'token' => '',
             'isRegistered' => rand(0, 9) < 8 ? 1  : 0,
