@@ -8,27 +8,34 @@ use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class CommentController extends AbstractController
 {
     /**
-     * @Route("/commentsByTrick/{trick}", name="app_comment_show", methods="POST")
+     * @Route("/commentsByTrick/{trick}", name="app_comment_show", methods="GET", options={"expose"=true})
      */
-    public function trickComments(Trick $trick, CommentRepository $commentRepository) {
-        $comments = $commentRepository->findBy(
-            ['trick' => $trick]
-        );
+    public function trickComments(Request $request, Trick $trick, CommentRepository $commentRepository) {
+        if ($request->isXmlHttpRequest()) {
+            $comments = $commentRepository->findBy(
+                ['trick' => $trick]
+            );
 
-        dd($comments);
+            return $this->json($comments, 200, [], [
+                ObjectNormalizer::ATTRIBUTES => ['user' => ['username', 'picturePath'], 'content', 'createdAt']
+            ]);
+        }
 
-        return $this->json([$comments]);
+        return $this->json([
+            'type' => 'error',
+            'message' => 'Ajax required'
+        ]);
     }
 
     /**
-     * @Route("/comment/new/{trick}", name="app_comment_new")
+     * @Route("/comment/new/{trick}", name="app_comment_new", methods="POST", options={"expose"=true})
      */
     public function new(EntityManagerInterface $em, Request $request, Trick $trick)
     {

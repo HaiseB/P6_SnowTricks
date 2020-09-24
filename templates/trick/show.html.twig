@@ -6,7 +6,7 @@
 
 {% block body %}
 <div>
-    <h1>{{ trick.name }}</h1>
+    <h1 id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</h1>
     {% for video in trick.videos %}
         <div>
             {{ video.id }} | {{ video.url }}
