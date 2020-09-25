@@ -32,7 +32,12 @@
         <a class="btn btn-lg btn-primary" href="{{ path('app_register') }}">Créer un compte</a>
     </div>
 {% endif %}
-    {#<hr>
+<hr>
+{% if trick.comments.count  %}
+    <div id="comment-list">
+        <h4><div class="loader"></div></h4>
+    </div>
+    {#
     {% for comment in trick.comments %}
         <div>
             {{ comment.user.picturePath }} |
@@ -42,6 +47,9 @@
             <hr>
         </div>
     {% endfor %}#}
+{% else %}
+    <span>Ce trick se sens seul sans commentaire (ಥ﹏ಥ)</span>
+{% endif %}
 
 {% endblock %}
 
