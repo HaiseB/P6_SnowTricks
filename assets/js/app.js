@@ -18,8 +18,40 @@ Routing.setRoutingData(Routes);
 
 let trick_id = document.getElementById('comment').dataset.commentId;
 let comment_list = document.getElementById('comment-list');
+let comment_form = document.getElementsByName('comment_form');
 
-console.log(comment_list);
+comment_form[0].addEventListener('submit', function (event)
+{
+    event.preventDefault()
+    new Promise( function (resolve, reject)
+    {
+        let url = Routing.generate('app_trick_show', {id : trick_id});
+        let xhr = new XMLHttpRequest();
+        let formData = new FormData(comment_form[0]);
+
+        xhr.open('POST', url);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.addEventListener('load', function(event)
+        {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    resolve(JSON.parse(this.responseText))
+                } else {
+                    reject(JSON.parse(this.responseText))
+                }
+            }
+        });
+
+        xhr.send(formData)
+    })
+        .then ((response) => {
+            insertToDom(response);
+            comment_form[0].reset()
+        })
+        .catch((error) => {
+            alert('OUPS! Une erreur est survenue pendant la création du commentaire | code = ' + error)
+        })
+});
 
 document.addEventListener('DOMContentLoaded', function (event)
 {
@@ -52,27 +84,27 @@ document.addEventListener('DOMContentLoaded', function (event)
             }
         })
         .catch((error) => {
-            console.log('ERROR')
+            alert('OUPS! Une erreur est survenue pendant le chargement des commentaires | code = ' + error)
         })
 });
 
 function insertToDom(data)
 {
-    let $span_element = createElement('span')
-    let $strong_element = createElement('strong')
-    let textNode = document.createTextNode(data.user.username + ' - ' + data.createdAt)
+    let $span_element = createElement('span');
+    let $strong_element = createElement('strong');
+    let textNode = document.createTextNode(data.user.username + ' - ' + data.createdAt);
 
-    $strong_element.appendChild(textNode)
-    $span_element.appendChild($strong_element)
+    $strong_element.appendChild(textNode);
+    $span_element.appendChild($strong_element);
 
     //message content
-    let p = createElement('p')
-    let pTextNode = document.createTextNode(data.content)
-    p.appendChild(pTextNode)
+    let p = createElement('p');
+    let pTextNode = document.createTextNode(data.content);
+    p.appendChild(pTextNode);
 
     // add all elements to the comment_list in the right order
-    comment_list.appendChild($span_element)
-    comment_list.appendChild(p)
+    comment_list.appendChild($span_element);
+    comment_list.appendChild(p);
     comment_list.appendChild(createElement('hr'))
 }
 

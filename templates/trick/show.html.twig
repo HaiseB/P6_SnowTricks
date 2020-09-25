@@ -24,7 +24,12 @@
 
 <h3>Espace commentaire</h3>
 {% if app.user %}
-     <h4>Laisser un commentaire</h4>
+    {{ form_start(commentForm) }}
+            {{ form_widget(commentForm) }}
+    <button class="btn btn-lg btn-primary" type="submit">
+        Laisser un commentaire
+    </button>
+    {{ form_end(commentForm) }}
 {% else %}
     <div class="text-center">
         <p>Tu dois être connecté(e) pour laisser un commentaire</p>
@@ -37,17 +42,8 @@
     <div id="comment-list">
         <h4><div class="loader"></div></h4>
     </div>
-    {#
-    {% for comment in trick.comments %}
-        <div>
-            {{ comment.user.picturePath }} |
-            {{ comment.user.username }} |
-            {{ comment.createdAt |date("m/d/Y") }} |
-            {{ comment.content }}
-            <hr>
-        </div>
-    {% endfor %}#}
 {% else %}
+    <h4>Soit le/la premier/ère à laisser un message</h4>
     <span>Ce trick se sens seul sans commentaire (ಥ﹏ಥ)</span>
 {% endif %}
 
