@@ -19,6 +19,10 @@ Routing.setRoutingData(Routes);
 let trick_id = document.getElementById('comment').dataset.commentId;
 let comment_list = document.getElementById('comment-list');
 let comment_form = document.getElementsByName('comment_form');
+let loadMoreButton = document.getElementById('load_more_button');
+let numberOfComments = 0;
+
+loadMoreButton.style.display = "none";
 
 comment_form[0].addEventListener('submit', function (event)
 {
@@ -45,19 +49,29 @@ comment_form[0].addEventListener('submit', function (event)
         xhr.send(formData)
     })
         .then ((response) => {
-            insertToDom(response);
-            comment_form[0].reset()
+            comment_form[0].reset();
         })
         .catch((error) => {
             alert('OUPS! Une erreur est survenue pendant la création du commentaire | code = ' + error)
         })
 });
 
+loadMoreButton.addEventListener('click', function (event)
+{
+    event.preventDefault()
+    printComments()
+});
+
 document.addEventListener('DOMContentLoaded', function (event)
+{
+    printComments()
+});
+
+function printComments()
 {
     new Promise(function(resolve, reject)
     {
-        let url = Routing.generate('app_comment_show', {trick : trick_id});
+        let url = Routing.generate('app_comment_show', {trick : trick_id, offset : numberOfComments});
         let xhr = new XMLHttpRequest();
 
         xhr.open('GET', url);
@@ -76,17 +90,28 @@ document.addEventListener('DOMContentLoaded', function (event)
         xhr.send()
     })
         .then ((response) => {
-            comment_list.children[0].remove();
+            if (numberOfComments === 0) {
+                comment_list.children[0].remove();
+            }
+
+            loadMoreButton.style.display = "block";
 
             for (let index = 0; index < response.length; index++)
             {
                 insertToDom(response[index])
             }
+            numberOfComments = numberOfComments+response.length;
+
+            if (response.length < 20 ){
+                loadMoreButton.style.display = "none";
+            } else {
+                loadMoreButton.style.display = "block";
+            }
         })
         .catch((error) => {
             alert('OUPS! Une erreur est survenue pendant le chargement des commentaires | code = ' + error)
         })
-});
+}
 
 function insertToDom(data)
 {

@@ -27,7 +27,13 @@
                     {% if app.user %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="30" height="30" class="rounded-circle">
+                                <img src="
+                                {% if app.user.picturePath == '' %}
+                                    {{ asset('pictures/profilPictures/defaultProfilPicture.png') }}
+                                {% else %}
+                                    {{ asset('pictures/profilPictures/'~app.user.picturePath~'') }}
+                                {% endif %}
+                                " width="30" height="30" class="rounded-circle">
                             </a>
                             <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{ path('app_trick_new') }}">Créer un nouveau trick</a>

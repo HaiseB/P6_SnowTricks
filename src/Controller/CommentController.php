@@ -15,13 +15,11 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 class CommentController extends AbstractController
 {
     /**
-     * @Route("/commentsByTrick/{trick}", name="app_comment_show", methods="GET", options={"expose"=true})
+     * @Route("/commentsByTrick/{trick}/{offset}", name="app_comment_show", methods="GET", options={"expose"=true})
      */
-    public function trickComments(Request $request, Trick $trick, CommentRepository $commentRepository) {
+    public function trickComments(Request $request, Trick $trick, Int $offset, CommentRepository $commentRepository) {
         if ($request->isXmlHttpRequest()) {
-            $comments = $commentRepository->findBy(
-                ['trick' => $trick]
-            );
+            $comments = $commentRepository->findCommentsByTrickAndOffset($trick, $offset);
 
             return $this->json($comments, 200, [], [
                 ObjectNormalizer::ATTRIBUTES => ['user' => ['username', 'picturePath'], 'content', 'createdAt']
@@ -34,33 +32,4 @@ class CommentController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/comment/new/{trick}", name="app_comment_new", methods="POST", options={"expose"=true})
-     */
-    public function new(EntityManagerInterface $em, Request $request, Trick $trick)
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        $form = $this->createForm(CommentFormType::class );
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Comment $comment */
-            $comment = $form->getData();
-            $comment->setUser($this->getUser());
-            $comment->setTrick($trick);
-
-            $em->persist($comment);
-            $em->flush();
-
-            return $this->redirectToRoute('app_trick_show', ['id' => $trick->getId()]);
-        }
-
-        return $this->render(
-            'comment/create.html.twig', [
-                'commentForm' => $form->createView()
-            ]
-        );
-    }
 }
