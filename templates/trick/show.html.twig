@@ -19,7 +19,7 @@
         </div>
     {% endfor %}
     <hr>
-    <p>catégorie {{ trick.tag.name }} |dernière MàJ{{ trick.updatedAt |date("m/d/Y")  }} | {{ trick.content }}</p>
+    <p>catégorie {{ trick.tag.name }} | dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }} | {{ trick.content }}</p>
 </div>
 
 <h3>Espace commentaire</h3>
@@ -27,7 +27,7 @@
 {% if app.user %}
     {{ form_start(commentForm) }}
             {{ form_widget(commentForm) }}
-    <button class="btn btn-lg btn-primary" type="submit">Laisser un commentaire</button>
+    <button class="btn btn-primary" type="submit">Laisser un commentaire</button>
     {{ form_end(commentForm) }}
 {% else %}
     <div class="text-center">
@@ -41,7 +41,7 @@
         <div id="comment-list">
             <div class="loader"></div>
         </div>
-        <a class="btn btn-lg btn-primary" id="load_more_button">Charger plus</a>
+        <a class="btn btn-primary" id="load_more_button">Charger plus</a>
 {% else %}
     <h4>Soit le/la premier/ère à laisser un message</h4>
     <span>Ce trick se sens seul sans commentaire (ಥ﹏ಥ)</span>
@@ -52,5 +52,4 @@
 
 {% block javascripts %}
     {{ parent() }}
-
 {% endblock %}

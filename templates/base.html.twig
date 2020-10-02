@@ -24,6 +24,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_homepage') }}">Accueil</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_homepage') }}">Tricks</a>
+                    </li>
                     {% if app.user %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -33,7 +36,7 @@
                                 {% else %}
                                     {{ asset('pictures/profilPictures/'~app.user.picturePath~'') }}
                                 {% endif %}
-                                " width="30" height="30" class="rounded-circle">
+                                " width="300" height="30&0" class="rounded-circle">
                             </a>
                             <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{ path('app_trick_new') }}">Créer un nouveau trick</a>
