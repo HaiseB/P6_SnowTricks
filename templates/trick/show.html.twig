@@ -5,18 +5,51 @@
 {% endblock %}
 
 {% block body %}
-<h1>{{ trick.name }}</h1>
-
 <div>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus inventore possimus nemo eveniet recusandae quisquam perferendis in veritatis, officiis iste? Repudiandae amet accusantium quis eum voluptate porro deleniti commodi totam?
+    <h1 id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</h1>
+    {% for video in trick.videos %}
+        <div>
+            {{ video.id }} | {{ video.url }}
+        </div>
+    {% endfor %}
+    <hr>
+    {% for picture in trick.pictures %}
+        <div>
+            {{ picture.id }} | {{ picture.path }}
+        </div>
+    {% endfor %}
+    <hr>
+    <p>catégorie {{ trick.tag.name }} | dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }} | {{ trick.content }}</p>
 </div>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3>Espace commentaire</h3>
+<div class="text-center">
+{% if app.user %}
+    {{ form_start(commentForm) }}
+            {{ form_widget(commentForm) }}
+    <button class="btn btn-primary" type="submit">Laisser un commentaire</button>
+    {{ form_end(commentForm) }}
+{% else %}
+    <div class="text-center">
+        <p>Tu dois être connecté(e) pour laisser un commentaire</p>
+        <a class="btn btn-lg btn-primary" href="{{ path('app_login') }}">Se connecter</a>
+        <a class="btn btn-lg btn-primary" href="{{ path('app_register') }}">Créer un compte</a>
+    </div>
+{% endif %}
+<hr>
+{% if trick.comments.count  %}
+        <div id="comment-list">
+            <div class="loader"></div>
+        </div>
+        <a class="btn btn-primary" id="load_more_button">Charger plus</a>
+{% else %}
+    <h4>Soit le/la premier/ère à laisser un message</h4>
+    <span>Ce trick se sens seul sans commentaire (ಥ﹏ಥ)</span>
+{% endif %}
+</div>
 
-+<span class=".js-comments-number"></span>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/trick_show.js') }}"></script>
 {% endblock %}

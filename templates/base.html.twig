@@ -7,10 +7,9 @@
         <title>{% block title %}Snowtricks{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-            <link href="{{ asset('css/bootstrap.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
-            <link href="{{ asset('css/app.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
             <link href="https://fonts.googleapis.com/css?family=Bungee|Source+Sans+Pro&display=swap" rel="stylesheet">
             <script src="https://kit.fontawesome.com/6e34adc13e.js" crossorigin="anonymous"></script>
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
     <body>
@@ -25,10 +24,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_homepage') }}">Accueil</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_homepage') }}">Tricks</a>
+                    </li>
                     {% if app.user %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="30" height="30" class="rounded-circle">
+                                <img src="
+                                {% if app.user.picturePath == '' %}
+                                    {{ asset('pictures/profilPictures/defaultProfilPicture.png') }}
+                                {% else %}
+                                    {{ asset('pictures/profilPictures/'~app.user.picturePath~'') }}
+                                {% endif %}
+                                " width="300" height="30&0" class="rounded-circle">
                             </a>
                             <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{ path('app_trick_new') }}">Créer un nouveau trick</a>
@@ -52,9 +60,10 @@
         <footer>
         </footer>
         {% block javascripts %}
-            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </body>
 </html>
