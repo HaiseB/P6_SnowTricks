@@ -6,7 +6,7 @@
 
 {% block body %}
     {% if trick.isOnline == false  %}
-        <span>Ce trick n'est pas encore en ligne! Dépêches-toi de le partager</span>
+        <div class="text-danger">Ce trick n'est <strong>pas encore en ligne</strong>! Pour l'instant seulement toi peux le voir, dépêches-toi de le <strong>partager</strong></div>
     {% endif %}
     <h1>Modifer {{ trick.name }}</h1>
 
@@ -39,6 +39,17 @@
         <button type="submit" class="btn btn-success btn-block">Enregistrer</button>
         {{ form_end(trickForm) }}
     </fieldset>
+    <hr>
+    <div class="text-center">
+    {% if trick.comments.count  %}
+        <div id="comment-list">
+            <div class="loader"></div>
+        </div>
+        <a class="btn btn-primary" id="load_more_button">Charger plus</a>
+    {% else %}
+        <h4>Il n'y a malheureusement pas encore de commentaire  (ಥ﹏ಥ)</h4>
+    {% endif %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}
