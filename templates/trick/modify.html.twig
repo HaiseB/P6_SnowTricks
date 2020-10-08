@@ -1,10 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Modifer {{ trick.name }}
+    {{ trick.name }}
 {% endblock %}
 
 {% block body %}
+    {% if trick.isOnline == false  %}
+        <span>Ce trick n'est pas encore en ligne! Dépêches-toi de le partager</span>
+    {% endif %}
     <h1>Modifer {{ trick.name }}</h1>
 
     <hr>

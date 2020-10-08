@@ -6,6 +6,9 @@
 
 {% block body %}
 <div>
+    {% if app.user.id == trick.user.id %}
+        <a href="{{ path('app_trick_modify', {id : trick.id}) }}" >Modifier mon trick</a>
+    {% endif %}
     <h1 id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</h1>
     {% for video in trick.videos %}
         <div>
@@ -19,7 +22,7 @@
         </div>
     {% endfor %}
     <hr>
-    <p>catégorie {{ trick.tag.name }} | dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }} | {{ trick.content }}</p>
+    <p>créé par {{ trick.user.username }} | catégorie {{ trick.tag.name }} | dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }} | {{ trick.content }}</p>
 </div>
 
 <h3>Espace commentaire</h3>
@@ -52,4 +55,5 @@
 
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags('trick_show') }}
 {% endblock %}
