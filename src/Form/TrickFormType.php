@@ -24,6 +24,7 @@ class TrickFormType extends AbstractType
                 'label' => "Contenu",
                 'required' => false,
                 'attr' => ['class' => 'tinymce'],
+                'help' => 'Pour éditer en mode plein écran va dans "Afficher > Plein écran"',
             ])
             ->add('tag', EntityType::class, [
                 'class' => Tag::class,
