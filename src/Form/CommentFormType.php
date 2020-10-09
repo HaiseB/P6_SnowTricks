@@ -15,6 +15,10 @@ class CommentFormType extends AbstractType
         $builder
             ->add('content', TextType::class, [
                 'label' => "Contenu du message",
+                'attr' => [
+                    'value' => '',
+                    'autocomplete' => 'off'
+                ],
             ])
         ;
     }

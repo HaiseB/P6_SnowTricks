@@ -6,7 +6,9 @@
 
 {% block body %}
     {% if trick.isOnline == false  %}
-        <div class="text-danger">Ce trick n'est <strong>pas encore en ligne</strong>! Pour l'instant seulement toi peux le voir, dépêches-toi de le <strong>partager</strong></div>
+        <div class="text-center"><p class="text-danger">Ce trick n'est <strong>pas encore en ligne</strong>!
+                Pour l'instant seulement toi peux le voir, dépêches-toi de le <strong>partager</strong></p>
+        </div>
     {% endif %}
     <h1>Modifer {{ trick.name }}</h1>
 
@@ -54,7 +56,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {#<script src="https://cdn.tiny.cloud/1/z80yiesiw6qlrl3y4gzy6j3zqw7ujm1dt0d5e7bjnujmen16/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/z80yiesiw6qlrl3y4gzy6j3zqw7ujm1dt0d5e7bjnujmen16/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector: 'textarea',
@@ -62,5 +64,5 @@
             plugins: 'advlist autolink lists link charmap print preview hr anchor pagebreak',
             toolbar_mode: 'floating',
         });
-    </script>#}
+    </script>
 {% endblock %}

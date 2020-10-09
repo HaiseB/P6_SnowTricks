@@ -22,6 +22,8 @@ class TrickFormType extends AbstractType
             ])
             ->add('content', TextareaType::class, [
                 'label' => "Contenu",
+                'required' => false,
+                'attr' => ['class' => 'tinymce'],
             ])
             ->add('tag', EntityType::class, [
                 'class' => Tag::class,

@@ -8,7 +8,7 @@
     <div class="text-center">
         <h1>Nouveau trick</h1>
         <h5>Merci de partager tes connaissances! <br>Les commentaires d'autres utilisateurs permetteront d’améliorer ta page plus tard si nécéssaire. o(^-^)o</h5>
-        <span>(Enregistre le trick pour pouvoir ajouter des <strong>images</strong> ou des <strong>vidéos</strong>)</span>
+        <span class="text-danger">(Enregistre le trick pour pouvoir ajouter des <strong>images</strong> ou des <strong>vidéos</strong>)</span>
     </div>
 
     <fieldset>
@@ -40,7 +40,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {#<script src="https://cdn.tiny.cloud/1/z80yiesiw6qlrl3y4gzy6j3zqw7ujm1dt0d5e7bjnujmen16/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/z80yiesiw6qlrl3y4gzy6j3zqw7ujm1dt0d5e7bjnujmen16/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector: 'textarea',
@@ -48,5 +48,5 @@
             plugins: 'advlist autolink lists link charmap print preview hr anchor pagebreak',
             toolbar_mode: 'floating',
         });
-    </script>#}
+    </script>
 {% endblock %}
