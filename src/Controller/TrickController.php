@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Picture;
 use App\Entity\Trick;
 use App\Form\CommentFormType;
+use App\Form\PictureFormType;
 use App\Form\TrickFormType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,24 +39,39 @@ class TrickController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $form = $this->createForm(TrickFormType::class );
+        $trickForm = $this->createForm(TrickFormType::class );
+        $pictureForm = $this->createForm(PictureFormType::class );
 
-        $form->handleRequest($request);
+        $trickForm->handleRequest($request);
+        $pictureForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($trickForm->isSubmitted() && $trickForm->isValid()) {
             /** @var Trick $trick */
-            $trick = $form->getData();
+            $trick = $trickForm->getData();
             $trick->setUser($this->getUser());
 
             $em->persist($trick);
-            $em->flush();
+            //$em->flush();
+
+            if ($pictureForm->isSubmitted() && $pictureForm->isValid()) {
+                dd($pictureForm->getData());
+
+                /** @var Picture $picture */
+                $picture = $pictureForm->getData();
+                $picture->setTrick($this);
+                $picture->setIsMain(true);
+
+                $em->persist($picture);
+                $em->flush();
+            }
 
             return $this->redirectToRoute('app_trick_show', ['id' => $trick->getId()]);
         }
 
         return $this->render(
             'trick/create.html.twig', [
-                'trickForm' => $form->createView()
+                'trickForm' => $trickForm->createView(),
+                'pictureForm' => $pictureForm->createView()
             ]
         );
     }

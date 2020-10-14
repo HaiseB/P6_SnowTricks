@@ -11,8 +11,10 @@
                 Pour l'instant seulement toi peux le voir, dépêches-toi de le <strong>partager</strong></p>
         </div>
     {% endif %}
-    {% if app.user.id == trick.user.id %}
-        <a href="{{ path('app_trick_modify', {id : trick.id}) }}" >Modifier mon trick</a>
+    {% if app.user %}
+        {% if app.user.id == trick.user.id %}
+            <a href="{{ path('app_trick_modify', {id : trick.id}) }}" >Modifier mon trick</a>
+        {% endif %}
     {% endif %}
     <h1 id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</h1>
 </div>
