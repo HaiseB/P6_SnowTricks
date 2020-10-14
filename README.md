@@ -33,9 +33,25 @@ _Go with a console to the repository and do thoses commands_
 
 ## Settings
 
+- Create a empty database on mysql
+
+- Change all default values in .env
+
+_Go back to the console and do_
+
+- ``php bin/console doctrine:migrations:migrate``
+
+- (Optional to get fake data)
+- ``php bin/console doctrine:fixtures:load``
+
 ## How to use
 
+- To launch symfony (choose one, according to your preferences)
+
+- ``php -S 127.0.0.1:8000 -t public``
 - ``symfony serve -d``
+
+(In development mode)
 - ``npm run watch``
 
 ## Build with
