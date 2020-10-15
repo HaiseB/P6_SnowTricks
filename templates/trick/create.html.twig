@@ -21,7 +21,13 @@
             {{ form_row(trickForm.name) }}
         </div>
 
-        {{ form_widget(pictureForm) }}
+        <div class="form-group">
+            {{ form_row(trickForm.path) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(trickForm.legend) }}
+        </div>
 
         <div class="form-group">
             {{ form_row(trickForm.content) }}
@@ -36,7 +42,8 @@
             </div>
         </div>
         <button type="submit" class="btn btn-success btn-block">Enregistrer</button>
-    {{ form_end(trickForm) }}
+
+        {{ form_end(trickForm) }}
     </fieldset>
 {% endblock %}
 

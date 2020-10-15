@@ -7,10 +7,12 @@ use App\Entity\Tag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class TrickFormType extends AbstractType
 {
@@ -35,6 +37,28 @@ class TrickFormType extends AbstractType
             ->add('isOnline', CheckboxType::class, [
                 'label'    => 'Visible en ligne',
                 'required' => false,
+            ])
+            ->add('path', FileType::class, [
+                'label' => "Image principal (PNG ou JPG)",
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Image non valide',
+                    ])
+                ],
+            ])
+            ->add('legend', TextType::class, [
+                'label' => "Description / légende de l'image",
+                'required' => false,
+                'mapped' => false,
+                'help' => "Ce n'est pas obligatoire, donc pas d'inquiétude! :)",
             ])
         ;
     }

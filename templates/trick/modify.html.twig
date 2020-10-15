@@ -7,14 +7,22 @@
 {% block body %}
     {% if trick.isOnline == false  %}
         <div class="text-center"><p class="text-danger">Ce trick n'est <strong>pas encore en ligne</strong>!
-                Pour l'instant seulement toi peux le voir, dépêches-toi de le <strong>partager</strong></p>
+                Pour l'instant, il n'y a que toi qui peut le voir, dépêches-toi de le <strong>partager</strong></p>
         </div>
     {% endif %}
-    <h1>Modifer {{ trick.name }}</h1>
-
+    <div class="text-center">
+        <h1>Modifer <span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
+        <div id="main-picture">
+            <p>Chargement de l'Image principale <div class="loader"></div></p>
+        </div>
+    </div>
     <hr>
-        <h2>@TODO : Partie gestion images / vidéos liés</h2>
-    <hr>
+    <div id="media" class="text-center">
+        <div id="picture-list">
+            <p>Chargement des images liées <div class="loader"></div></p>
+        </div>
+        <h2>@TODO : vidéos liés</h2>
+    </div>
 
     <fieldset>
         {{ form_start(trickForm) }}
@@ -42,7 +50,8 @@
         {{ form_end(trickForm) }}
     </fieldset>
     <hr>
-    <div class="text-center">
+    <section class="text-center">
+    <h3>Espace commentaire</h3>
     {% if trick.comments.count  %}
         <div id="comment-list">
             <div class="loader"></div>
@@ -51,11 +60,12 @@
     {% else %}
         <h4>Il n'y a malheureusement pas encore de commentaire  (ಥ﹏ಥ)</h4>
     {% endif %}
-    </div>
+    </section>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags('trick_modify') }}
     <script src="https://cdn.tiny.cloud/1/z80yiesiw6qlrl3y4gzy6j3zqw7ujm1dt0d5e7bjnujmen16/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({

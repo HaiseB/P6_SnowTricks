@@ -6,11 +6,12 @@ use App\Entity\Comment;
 use App\Entity\Picture;
 use App\Entity\Trick;
 use App\Form\CommentFormType;
-use App\Form\PictureFormType;
 use App\Form\TrickFormType;
 use App\Repository\TrickRepository;
+use App\Service\UploadHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -35,15 +36,13 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/new", name="app_trick_new")
      */
-    public function new(EntityManagerInterface $em, Request $request)
+    public function new(EntityManagerInterface $em, Request $request, UploadHelper $uploadHelper)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $trickForm = $this->createForm(TrickFormType::class );
-        $pictureForm = $this->createForm(PictureFormType::class );
+        $trickForm = $this->createForm(TrickFormType::class);
 
         $trickForm->handleRequest($request);
-        $pictureForm->handleRequest($request);
 
         if ($trickForm->isSubmitted() && $trickForm->isValid()) {
             /** @var Trick $trick */
@@ -51,15 +50,19 @@ class TrickController extends AbstractController
             $trick->setUser($this->getUser());
 
             $em->persist($trick);
-            //$em->flush();
+            $em->flush();
 
-            if ($pictureForm->isSubmitted() && $pictureForm->isValid()) {
-                dd($pictureForm->getData());
+            /** @var UploadedFile $picture */
+            $pictureFile = $trickForm->get('path')->getData();
 
-                /** @var Picture $picture */
-                $picture = $pictureForm->getData();
-                $picture->setTrick($this);
+            if ($pictureFile) {
+                $picture = new Picture();
+                $newFilename = $uploadHelper->uploadTrickMainPicture($pictureFile);
+
+                $picture->setPath($newFilename);
                 $picture->setIsMain(true);
+                $picture->setLegend($trickForm->get('legend')->getData());
+                $picture->setTrick($trick);
 
                 $em->persist($picture);
                 $em->flush();
@@ -70,8 +73,7 @@ class TrickController extends AbstractController
 
         return $this->render(
             'trick/create.html.twig', [
-                'trickForm' => $trickForm->createView(),
-                'pictureForm' => $pictureForm->createView()
+                'trickForm' => $trickForm->createView()
             ]
         );
     }

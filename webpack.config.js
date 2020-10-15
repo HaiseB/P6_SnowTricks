@@ -25,6 +25,7 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('trick_show', './assets/js/trick_show.js')
+    .addEntry('trick_modify', './assets/js/trick_modify.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
