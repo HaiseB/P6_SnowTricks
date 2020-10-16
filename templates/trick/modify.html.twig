@@ -26,17 +26,23 @@
         {% endif %}
     {% endif %}
     <div id="media" class="text-center">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active">Images liées</li>
-        </ol>
-        <div id="picture-list">
-            <p>Chargement des images liées <div class="loader"></div></p>
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Images liées</li>
+            </ol>
+            <div id="picture-list">
+                <p>Chargement des images liées <div class="loader"></div></p>
+            </div>
+            <a href="{{ path('app_trick_add_linked_picture', {id : trick.id}) }}">Ajouter une image</a>
         </div>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active">Vidéos liées</li>
-        </ol>
-        <div id="video-list">
-            <p>Chargement des vidéos liées <div class="loader"></div></p>
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Vidéos liées</li>
+            </ol>
+            <div id="video-list">
+                <p>Chargement des vidéos liées <div class="loader"></div></p>
+            </div>
+            <a href="#">Ajouter une vidéo</a>
         </div>
     </div>
 

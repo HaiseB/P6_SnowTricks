@@ -20,7 +20,6 @@ class PictureFormType extends AbstractType
                 'mapped' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/jpg',

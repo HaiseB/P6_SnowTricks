@@ -52,6 +52,13 @@ class PictureRepository extends ServiceEntityRepository
             ;
     }
 
+    public function delete($picture, $em) :void
+    {
+        $picture->setIsDeleted(true);
+        $em->persist($picture);
+        $em->flush();
+    }
+
     /*
     public function findOneBySomeField($value): ?Picture
     {

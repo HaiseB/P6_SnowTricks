@@ -17,24 +17,6 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 class PictureController extends AbstractController
 {
     /**
-     * @Route("/mainPictureOfTrick/{trick}", name="app_main_picture_show", methods="GET", options={"expose"=true})
-     */
-    public function trickMainPicture(Request $request, Trick $trick, PictureRepository $pictureRepository) {
-        if ($request->isXmlHttpRequest()) {
-            $picture = $pictureRepository->findMainPictureByTrick($trick);
-
-            return $this->json($picture, 200, [], [
-                ObjectNormalizer::ATTRIBUTES => ['path', 'legend', 'createdAt']
-            ]);
-        }
-
-        return $this->json([
-            'type' => 'error',
-            'message' => 'Ajax required'
-        ]);
-    }
-
-    /**
      * @Route("/picturesByTrick/{trick}", name="app_pictures_show", methods="GET", options={"expose"=true})
      */
     public function trickPictures(Request $request, Trick $trick, PictureRepository $pictureRepository) {
@@ -42,7 +24,7 @@ class PictureController extends AbstractController
             $pictures = $pictureRepository->findPicturesByTrickExceptMain($trick);
 
             return $this->json($pictures, 200, [], [
-                ObjectNormalizer::ATTRIBUTES => ['path', 'legend', 'createdAt']
+                ObjectNormalizer::ATTRIBUTES => ['id', 'path', 'legend', 'createdAt']
             ]);
         }
 
@@ -55,7 +37,7 @@ class PictureController extends AbstractController
     /**
      * @Route("trick/{id}/addMainPicture", name="app_trick_add_main_picture")
      */
-    public function new(EntityManagerInterface $em, Request $request, PictureRepository $pictureRepository, Trick $trick, UploadHelper $uploadHelper)
+    public function newMain(EntityManagerInterface $em, Request $request, PictureRepository $pictureRepository, Trick $trick, UploadHelper $uploadHelper)
     {
         $pictureForm = $this->createForm(PictureFormType::class );
 
@@ -65,9 +47,7 @@ class PictureController extends AbstractController
 
         if ($pictureForm->isSubmitted() && $pictureForm->isValid()) {
             if (count($mainPicture) > 0) {
-                $mainPicture[0]->setIsDeleted(true);
-                $em->persist($mainPicture[0]);
-                $em->flush();
+                $pictureRepository->delete($mainPicture[0], $em);
             }
 
             /** @var UploadedFile $picture */
@@ -97,16 +77,70 @@ class PictureController extends AbstractController
     }
 
     /**
+     * @Route("trick/{id}/addLinkedPicture", name="app_trick_add_linked_picture")
+     */
+    public function newLinked(EntityManagerInterface $em, Request $request, Trick $trick, UploadHelper $uploadHelper)
+    {
+        $pictureForm = $this->createForm(PictureFormType::class );
+
+        $pictureForm->handleRequest($request);
+
+        if ($pictureForm->isSubmitted() && $pictureForm->isValid()) {
+            /** @var UploadedFile $picture */
+            $picture = $pictureForm->getData();
+
+            $pictureFile = $pictureForm->get('path')->getData();
+
+            $newFilename = $uploadHelper->uploadTrickLinkedPicture($pictureFile);
+
+            $picture->setPath($newFilename);
+            $picture->setIsMain(false);
+            $picture->setTrick($trick);
+
+            $em->persist($picture);
+            $em->flush();
+
+            return $this->redirectToRoute('app_trick_modify', ['id' => $trick->getId()]);
+        }
+
+        return $this->render(
+            'picture/createLinked.html.twig', [
+                'pictureForm' => $pictureForm->createView(),
+                'trick' => $trick
+            ]
+        );
+    }
+
+    /**
      * @Route("trick/{id}/deleteMainPicture", name="app_trick_delete_main_picture")
      */
-    public function delete(EntityManagerInterface $em, Request $request, PictureRepository $pictureRepository, Trick $trick, UploadHelper $uploadHelper)
+    public function deleteMain(EntityManagerInterface $em, PictureRepository $pictureRepository, Trick $trick)
     {
         $mainPicture = $pictureRepository->findMainPictureByTrick($trick);
-        $mainPicture[0]->setIsDeleted(true);
-        $em->persist($mainPicture[0]);
-        $em->flush();
+
+        $pictureRepository->delete($mainPicture[0], $em);
 
         return $this->redirectToRoute('app_trick_modify', ['id' => $trick->getId()]);
     }
 
+    /**
+     * @Route("deleteLinkedPicture/{id}", name="app_trick_delete_linked_picture", methods="POST", options={"expose"=true})
+     */
+    public function deleteLink(Request $request, EntityManagerInterface $em, PictureRepository $pictureRepository, Picture $picture)
+    {
+        if ($request->isXmlHttpRequest()) {
+
+            $pictureRepository->delete($picture, $em);
+
+            return $this->json([
+                'type' => 'success',
+                'message' => 'Picture successfully deleted'
+            ]);
+        }
+
+        return $this->json([
+            'type' => 'error',
+            'message' => 'Ajax required'
+        ]);
+    }
 }

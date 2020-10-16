@@ -6,7 +6,7 @@ Routing.setRoutingData(Routes);
 let trick_id = document.getElementById('comment').dataset.commentId;
 let comment_list = document.getElementById('comment-list');
 let picture_list = document.getElementById('picture-list');
-let video_list = document.getElementById('picture-list');
+//let video_list = document.getElementById('video-list')
 let loadMoreButton = document.getElementById('load_more_button');
 let numberOfComments = 0;
 
@@ -16,19 +16,17 @@ loadMoreButton.addEventListener('click', function (event)
 {
     event.preventDefault();
     printComments()
-});
+})
 
+$('#mytable').delegate('click', 'name^=["qty_"]', function() {
+    console.log("you clicked cell #" . $(this).attr("name"));
+});
 document.addEventListener('DOMContentLoaded', function (event)
 {
     printLinkedPictures();
     //printLinkedVideos();
     printComments()
 });
-
-/*function printLinkedVideos()
-{
-
-}*/
 
 function printLinkedPictures()
 {
@@ -53,10 +51,13 @@ function printLinkedPictures()
     })
         .then ((response) => {
             completeRemove(picture_list);
+            generatePictureTable()
             for (let index = 0; index < response.length; index++)
             {
                 insertLinkedPictureToDom(response[index])
             }
+            let delete_linked_pictures_button = document.getElementsByClassName('linked-picture');
+            console.log(delete_linked_pictures_button)
         })
         .catch((error) => {
             alert("OUPS! Une erreur est survenue pendant le chargement des images liées | code = " + error)
@@ -113,7 +114,6 @@ function insertCommentsToDom(data)
     let $span_element = createElement('span');
     let $strong_element = createElement('strong');
     let textNode = document.createTextNode(' ' + data.user.username + ' - ' + data.createdAt);
-    //profil picture
     let img = document.createElement('img');
     if (data.user.picturePath === null){
         img.src = '../../pictures/profilPictures/defaultProfilPicture.png';
@@ -127,12 +127,10 @@ function insertCommentsToDom(data)
     $strong_element.appendChild(textNode);
     $span_element.appendChild($strong_element);
 
-    //comment content
     let p = createElement('p');
     let pTextNode = document.createTextNode(data.content);
     p.appendChild(pTextNode);
 
-    // add all elements to the comment_list
     comment_list.appendChild(img);
     comment_list.appendChild($span_element);
     comment_list.appendChild(p);
@@ -140,25 +138,61 @@ function insertCommentsToDom(data)
 
 function insertLinkedPictureToDom(data)
 {
-    /*let p = createElement('p');
-    let $span_element = createElement('span');
-    let textNode = document.createTextNode('data.legend');*/
-
+    let tr = createElement('tr');
+    let th = createElement('td');
+    let td = createElement('td');
+    let td2 = createElement('td');
+    let td3 = createElement('td');
+    let a = createElement('a');
     let img = document.createElement('img');
+
+    tr.classList.add("linked-picture");
+
+    a.href = Routing.generate('app_trick_delete_linked_picture', {id : data.id})
+    a.textContent = 'supprimer'
 
     img.src = '../../pictures/tricksPictures/linked/'+data.path;
     img.width = 80;
     img.height = 80;
 
-    picture_list.appendChild(img);
-    /*comment_list.appendChild(p);
 
-    let p = createElement('p');
-    let pTextNode = document.createTextNode(data.content);
-    p.appendChild(pTextNode);
+    picture_list.firstChild.lastChild.appendChild(tr);
+    th.appendChild(img)
+    tr.appendChild(th);
+    td.textContent = data.legend
+    tr.appendChild(td);
+    td2.textContent = data.createdAt
+    tr.appendChild(td2);
+    td3.appendChild(a)
+    tr.appendChild(td3);
+}
 
-    comment_list.appendChild($span_element);
-    comment_list.appendChild(p);*/
+function generatePictureTable()
+{
+    let columns = ["apercu", "legende", "ajouté le", "supprimer"]
+    generateTable(columns)
+}
+
+function generateTable(columns)
+{
+    let table = createElement('table');
+    let thead = createElement('thead');
+    let tr = createElement('tr');
+    let tbody = createElement('tbody');
+
+    table.classList.add("table");
+    table.classList.add("table-hover");
+
+    picture_list.appendChild(table);
+    table.appendChild(thead);
+    thead.appendChild(tr);
+    for (let index = 0; index < columns.length; index++)
+    {
+        let th = createElement('th');
+        th.textContent = columns[index]
+        tr.appendChild(th);
+    }
+    table.appendChild(tbody);
 }
 
 function createElement(name)
