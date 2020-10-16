@@ -7,6 +7,7 @@ use App\Entity\Picture;
 use App\Entity\Trick;
 use App\Form\CommentFormType;
 use App\Form\TrickFormType;
+use App\Repository\PictureRepository;
 use App\Repository\TrickRepository;
 use App\Service\UploadHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -81,9 +82,13 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{id}/modify", name="app_trick_modify")
      */
-    public function modify(EntityManagerInterface $em, Request $request, Trick $trick)
+    public function modify(EntityManagerInterface $em, Request $request, Trick $trick, PictureRepository $pictureRepository)
     {
-        $form = $this->createForm(TrickFormType::class, $trick );
+        $form = $this->createForm(TrickFormType::class, $trick);
+        $form->remove('path');
+        $form->remove('legend');
+
+        $mainPicture = $pictureRepository->findMainPictureByTrick($trick);
 
         $form->handleRequest($request);
 
@@ -100,7 +105,8 @@ class TrickController extends AbstractController
         return $this->render(
             'trick/modify.html.twig', [
                 'trickForm' => $form->createView(),
-                'trick' => $trick
+                'trick' => $trick,
+                'mainPicture' => $mainPicture
             ]
         );
     }
@@ -121,11 +127,13 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{id}", name="app_trick_show", methods={"GET", "POST"}, options={"expose"=true})
      */
-    public function show(EntityManagerInterface $em, Request $request, Trick $trick)
+    public function show(EntityManagerInterface $em, Request $request, Trick $trick, PictureRepository $pictureRepository)
     {
         $form = $this->createForm(CommentFormType::class );
 
         $form->handleRequest($request);
+
+        $mainPicture = $pictureRepository->findMainPictureByTrick($trick);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($request->isXmlHttpRequest()) {

@@ -5,7 +5,6 @@ Routing.setRoutingData(Routes);
 
 let trick_id = document.getElementById('comment').dataset.commentId;
 let comment_list = document.getElementById('comment-list');
-let main_picture = document.getElementById('main-picture');
 let picture_list = document.getElementById('picture-list');
 let video_list = document.getElementById('picture-list');
 let loadMoreButton = document.getElementById('load_more_button');
@@ -21,16 +20,15 @@ loadMoreButton.addEventListener('click', function (event)
 
 document.addEventListener('DOMContentLoaded', function (event)
 {
-    printMainPicture();
     printLinkedPictures();
-    printLinkedVideos();
+    //printLinkedVideos();
     printComments()
 });
 
-function printLinkedVideos()
+/*function printLinkedVideos()
 {
 
-}
+}*/
 
 function printLinkedPictures()
 {
@@ -57,41 +55,11 @@ function printLinkedPictures()
             completeRemove(picture_list);
             for (let index = 0; index < response.length; index++)
             {
-                //insertLinkedPictureToDom(response[index])
+                insertLinkedPictureToDom(response[index])
             }
         })
         .catch((error) => {
             alert("OUPS! Une erreur est survenue pendant le chargement des images liées | code = " + error)
-        })
-}
-
-function printMainPicture()
-{
-    new Promise(function(resolve, reject)
-    {
-        let url = Routing.generate('app_main_picture_show', {trick : trick_id});
-        let xhr = new XMLHttpRequest();
-
-        xhr.open('GET', url);
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        xhr.addEventListener('load', function(event)
-        {
-            if (this.readyState === 4) {
-                if (this.status === 200) {
-                    resolve(JSON.parse(this.responseText))
-                } else {
-                    reject(JSON.parse(this.responseText))
-                }
-            }
-        });
-        xhr.send()
-    })
-        .then ((response) => {
-            completeRemove(main_picture);
-            //insertMainPictureToDom(response[0])
-        })
-        .catch((error) => {
-            alert("OUPS! Une erreur est survenue pendant le chargement de l'image principale | code = " + error)
         })
 }
 
@@ -118,7 +86,9 @@ function printComments()
     })
         .then ((response) => {
             if (numberOfComments === 0) {
-                completeRemove(numberOfComments);
+                while (comment_list.firstChild) {
+                    comment_list.removeChild(comment_list.lastChild);
+                }
             }
 
             for (let index = 0; index < response.length; index++)
@@ -168,25 +138,11 @@ function insertCommentsToDom(data)
     comment_list.appendChild(p);
 }
 
-/*function insertMainPictureToDom(data)
+function insertLinkedPictureToDom(data)
 {
-    let img = document.createElement('img');
+    /*let p = createElement('p');
     let $span_element = createElement('span');
-    let textNode = document.createTextNode('data.legend');
-
-    img.src = '../../pictures/tricksPictures/mains/'+data.path;
-    img.width = 700;
-    img.height = 600;
-
-    main_picture.appendChild(img);
-    comment_list.appendChild($span_element);
-}*/
-
-/*function insertLinkedPictureToDom(data)
-{
-    let p = createElement('p');
-    let $span_element = createElement('span');
-    let textNode = document.createTextNode('data.legend');
+    let textNode = document.createTextNode('data.legend');*/
 
     let img = document.createElement('img');
 
@@ -194,16 +150,16 @@ function insertCommentsToDom(data)
     img.width = 80;
     img.height = 80;
 
-    main_picture.appendChild(img);
-    comment_list.appendChild(p);
+    picture_list.appendChild(img);
+    /*comment_list.appendChild(p);
 
     let p = createElement('p');
     let pTextNode = document.createTextNode(data.content);
     p.appendChild(pTextNode);
 
     comment_list.appendChild($span_element);
-    comment_list.appendChild(p);
-}*/
+    comment_list.appendChild(p);*/
+}
 
 function createElement(name)
 {

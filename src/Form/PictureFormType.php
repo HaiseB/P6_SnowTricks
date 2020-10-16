@@ -16,9 +16,8 @@ class PictureFormType extends AbstractType
     {
         $builder
             ->add('path', FileType::class, [
-                'label' => "Image principal (PNG ou JPG)",
+                'label' => "Image (PNG ou JPG)",
                 'mapped' => false,
-                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',

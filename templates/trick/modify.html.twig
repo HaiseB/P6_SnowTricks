@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ trick.name }}
+    Modifer : {{ trick.name }}
 {% endblock %}
 
 {% block body %}
@@ -10,18 +10,34 @@
                 Pour l'instant, il n'y a que toi qui peut le voir, dépêches-toi de le <strong>partager</strong></p>
         </div>
     {% endif %}
-    <div class="text-center">
-        <h1>Modifer <span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
-        <div id="main-picture">
-            <p>Chargement de l'Image principale <div class="loader"></div></p>
+    {% if mainPicture|length == 0 %}
+        <div class="text-center banner">
+            <p class="text-danger">Ce trick n'a <strong>pas encore d'image principale</strong>, Ajoutes-en une en <a href="{{ path('app_trick_add_main_picture', {id : trick.id}) }}">cliquant ici</a></p>
+            <h1><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
         </div>
-    </div>
-    <hr>
+    {% else %}
+        <div class="text-center banner" style="background-image: url({{ asset('pictures/tricksPictures/mains/'~mainPicture.0.path~'') }});">
+            <a href="{{ path('app_trick_add_main_picture', {id : trick.id}) }}">Modifier</a>
+            <a href="{{ path('app_trick_delete_main_picture', {id : trick.id}) }}">Supprimer</a>
+            <h1><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
+        </div>
+        {% if mainPicture.0.legend|length > 0 %}
+            <p class="text-center">Description : {{ mainPicture.0.legend }}</p>
+        {% endif %}
+    {% endif %}
     <div id="media" class="text-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Images liées</li>
+        </ol>
         <div id="picture-list">
             <p>Chargement des images liées <div class="loader"></div></p>
         </div>
-        <h2>@TODO : vidéos liés</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Vidéos liées</li>
+        </ol>
+        <div id="video-list">
+            <p>Chargement des vidéos liées <div class="loader"></div></p>
+        </div>
     </div>
 
     <fieldset>
@@ -52,14 +68,10 @@
     <hr>
     <section class="text-center">
     <h3>Espace commentaire</h3>
-    {% if trick.comments.count  %}
         <div id="comment-list">
             <div class="loader"></div>
         </div>
         <a class="btn btn-primary" id="load_more_button">Charger plus</a>
-    {% else %}
-        <h4>Il n'y a malheureusement pas encore de commentaire  (ಥ﹏ಥ)</h4>
-    {% endif %}
     </section>
 {% endblock %}
 

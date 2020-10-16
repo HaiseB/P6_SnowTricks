@@ -23,7 +23,7 @@ class UploadHelper
         return $this->uploadTrickPicture($uploadedFile, $this->params->get('main_picture_directory'));
     }
 
-    public function uploadTrickLinkedPicture(SluggerInterface $slugger, UploadedFile $uploadedFile){
+    public function uploadTrickLinkedPicture(UploadedFile $uploadedFile){
         return $this->uploadTrickPicture($uploadedFile, $this->params->get('linked_picture_directory'));
     }
 
