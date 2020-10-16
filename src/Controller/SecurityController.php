@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserForgotPasswordFormType;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -96,5 +99,58 @@ class SecurityController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_login');
+    }
+
+    /**
+     * @Route("/forgot_password", name="app_forgot_password")
+     */
+    public function forgot_password(MailerInterface $mailer, EntityManager $entityManager, UserRepository $userRepository, Request $request)
+    {
+        $form = $this->createForm(UserForgotPasswordFormType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $email = $form->get('email')->getData();
+
+            $user = $userRepository->findUserByEmail($email);
+
+            if ($user) {
+                $token = bin2hex(random_bytes(60));
+                $user->setToken($token);
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $email = (new TemplatedEmail())
+                    ->from(new Address('support@snowtricks.com', 'Snowtricks'))
+                    ->to(new Address($user->getEmail(), $user->getUsername()))
+                    ->subject('Demande de réinitialisation de mot de passe')
+                    ->htmlTemplate('email/forgot_password.html.twig')
+                    ->context([
+                        'user' => $user
+                    ]);
+
+                $mailer->send($email);
+                //@TODO add flash message
+            }
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render(
+            'security/forgotPassword.html.twig', [
+                'form' => $form->createView()
+            ]
+        );
+    }
+
+    /**
+     * @Route("/change_password", name="app_change_password")
+     */
+    public function change_password(EntityManagerInterface $em, User $user)
+    {
+
     }
 }
