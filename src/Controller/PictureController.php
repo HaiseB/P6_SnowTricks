@@ -124,23 +124,12 @@ class PictureController extends AbstractController
     }
 
     /**
-     * @Route("deleteLinkedPicture/{id}", name="app_trick_delete_linked_picture", methods="POST", options={"expose"=true})
+     * @Route("deleteLinkedPicture/{id}", name="app_trick_delete_linked_picture", methods="GET", options={"expose"=true})
      */
     public function deleteLink(Request $request, EntityManagerInterface $em, PictureRepository $pictureRepository, Picture $picture)
     {
-        if ($request->isXmlHttpRequest()) {
+        $pictureRepository->delete($picture, $em);
 
-            $pictureRepository->delete($picture, $em);
-
-            return $this->json([
-                'type' => 'success',
-                'message' => 'Picture successfully deleted'
-            ]);
-        }
-
-        return $this->json([
-            'type' => 'error',
-            'message' => 'Ajax required'
-        ]);
+        return $this->redirectToRoute('app_trick_modify', ['id' => $picture->getTrick()->getId()]);
     }
 }
