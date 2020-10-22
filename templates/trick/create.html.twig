@@ -5,12 +5,11 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Nouveau trick</h1>
-    <h5>Merci de partager vos connaissances! <br>Les commentaires d'autres utilisateurs permetteront d’améliorer votre page de trick si nécéssaire. o(^-^)o</h5>
-
-    <hr>
-        <h2>@TODO : Partie gestion images / vidéos liés</h2>
-    <hr>
+    <div class="text-center">
+        <h1>Nouveau trick</h1>
+        <h5>Merci de partager tes connaissances! <br>Les commentaires d'autres utilisateurs permetteront d’améliorer ta page plus tard si nécéssaire. o(^-^)o</h5>
+        <span class="text-danger">(Enregistre le trick pour pouvoir ajouter des <strong>images</strong> ou des <strong>vidéos</strong>)</span>
+    </div>
 
     <fieldset>
     {{ form_start(trickForm) }}
@@ -20,6 +19,14 @@
 
         <div class="form-group">
             {{ form_row(trickForm.name) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(trickForm.path) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(trickForm.legend) }}
         </div>
 
         <div class="form-group">
@@ -35,19 +42,21 @@
             </div>
         </div>
         <button type="submit" class="btn btn-success btn-block">Enregistrer</button>
-    {{ form_end(trickForm) }}
+
+        {{ form_end(trickForm) }}
     </fieldset>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {#<script src="https://cdn.tiny.cloud/1/z80yiesiw6qlrl3y4gzy6j3zqw7ujm1dt0d5e7bjnujmen16/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/z80yiesiw6qlrl3y4gzy6j3zqw7ujm1dt0d5e7bjnujmen16/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector: 'textarea',
             language: 'fr_FR',
-            plugins: 'advlist autolink lists link charmap print preview hr anchor pagebreak',
+            plugins: 'advlist autolink lists link charmap print preview hr anchor pagebreak fullscreen',
+            toolbar: 'fullscreen undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect',
             toolbar_mode: 'floating',
         });
-    </script>#}
+    </script>
 {% endblock %}

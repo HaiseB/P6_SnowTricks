@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Image principal de {{ trick.name }}
+{% endblock %}
+
+{% block body %}
+
+    {% if mainPicture|length == 0 %}
+        <div class="text-center banner">
+            <h1><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
+        </div>
+    {% else %}
+        <div class="text-center banner" style="background-image: url({{ asset('pictures/tricksPictures/mains/'~mainPicture.0.path~'') }});">
+            <h1>{{ trick.name }}</h1>
+        </div>
+        <p class="text-center text-danger">Ce trick possède <strong> déjà une image</strong> la nouvelle <strong>remplacera</strong> l'ancienne</p>
+    {% endif %}
+
+    {{ form_start(pictureForm) }}
+    <div class="form-group">
+        {{ form_errors(pictureForm) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(pictureForm.path) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(pictureForm.legend) }}
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">Enregistrer</button>
+    {{ form_end(pictureForm) }}
+{% endblock %}

@@ -2,23 +2,19 @@
 
 namespace App\Form;
 
-use App\Entity\Comment;
+use App\Entity\Video;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CommentFormType extends AbstractType
+class VideoFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content', TextType::class, [
-                'label' => "Contenu du message",
-                'attr' => [
-                    'value' => '',
-                    'autocomplete' => 'off'
-                ],
+            ->add('url', TextType::class, [
+                'label' => "Code de la vidéo youtube",
             ])
         ;
     }
@@ -26,7 +22,7 @@ class CommentFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Comment::class,
+            'data_class' => Video::class,
         ]);
     }
 }

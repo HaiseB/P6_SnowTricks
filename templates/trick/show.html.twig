@@ -6,50 +6,62 @@
 
 {% block body %}
 <div>
+    {% if trick.isOnline == false  %}
+        <div class="text-center"><p class="text-danger">Ce trick n'est <strong>pas encore en ligne</strong>!
+                Pour l'instant il n'y a que toi qui peut le voir, dépêches-toi de le <strong>partager</strong></p>
+        </div>
+    {% endif %}
+    {% if app.user %}
+        {% if app.user.id == trick.user.id %}
+            <a href="{{ path('app_trick_modify', {id : trick.id}) }}" >Modifier mon trick</a>
+        {% endif %}
+    {% endif %}
     <h1 id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</h1>
+</div>
+
+<section>
     {% for video in trick.videos %}
         <div>
             {{ video.id }} | {{ video.url }}
         </div>
     {% endfor %}
-    <hr>
     {% for picture in trick.pictures %}
         <div>
             {{ picture.id }} | {{ picture.path }}
         </div>
     {% endfor %}
-    <hr>
-    <p>catégorie {{ trick.tag.name }} | dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }} | {{ trick.content }}</p>
-</div>
+</section>
 
-<h3>Espace commentaire</h3>
-<div class="text-center">
-{% if app.user %}
-    {{ form_start(commentForm) }}
-            {{ form_widget(commentForm) }}
-    <button class="btn btn-primary" type="submit">Laisser un commentaire</button>
-    {{ form_end(commentForm) }}
-{% else %}
-    <div class="text-center">
-        <p>Tu dois être connecté(e) pour laisser un commentaire</p>
-        <a class="btn btn-lg btn-primary" href="{{ path('app_login') }}">Se connecter</a>
-        <a class="btn btn-lg btn-primary" href="{{ path('app_register') }}">Créer un compte</a>
-    </div>
-{% endif %}
+<section>
+    <p>{{ trick.content | raw }}</p>
+    <p>créé par {{ trick.user.username }} | catégorie {{ trick.tag.name }} | créé le {{ trick.createdAt |date("m/d/Y")  }} | dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }}</p>
+</section>
+
 <hr>
-{% if trick.comments.count  %}
-        <div id="comment-list">
-            <div class="loader"></div>
+<section class="text-center">
+    <h3>Espace commentaire</h3>
+    {% if app.user %}
+        {{ form_start(commentForm) }}
+        {{ form_widget(commentForm) }}
+        <button class="btn btn-primary" type="submit">Laisser un commentaire</button>
+        {{ form_end(commentForm) }}
+    {% else %}
+        <div class="text-center">
+            <p>Tu dois être connecté(e) pour laisser un commentaire</p>
+            <a class="btn btn-lg btn-primary" href="{{ path('app_login') }}">Se connecter</a>
+            <a class="btn btn-lg btn-primary" href="{{ path('app_register') }}">Créer un compte</a>
         </div>
-        <a class="btn btn-primary" id="load_more_button">Charger plus</a>
-{% else %}
-    <h4>Soit le/la premier/ère à laisser un message</h4>
-    <span>Ce trick se sens seul sans commentaire (ಥ﹏ಥ)</span>
-{% endif %}
-</div>
+    {% endif %}
+    <br>
+    <div id="comment-list">
+        <div class="loader"></div>
+    </div>
+    <a class="btn btn-primary" id="load_more_button">Charger plus</a>
+</section>
 
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags('trick_show') }}
 {% endblock %}
