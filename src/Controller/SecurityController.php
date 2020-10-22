@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserForgotPasswordFormType;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -97,6 +96,7 @@ class SecurityController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
+        //@TODO add flash message
 
         return $this->redirectToRoute('app_login');
     }
@@ -104,7 +104,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/forgot_password", name="app_forgot_password")
      */
-    public function forgot_password(MailerInterface $mailer, EntityManager $entityManager, UserRepository $userRepository, Request $request)
+    public function forgot_password(MailerInterface $mailer, UserRepository $userRepository, EntityManagerInterface $em, Request $request)
     {
         $form = $this->createForm(UserForgotPasswordFormType::class);
 
@@ -114,14 +114,14 @@ class SecurityController extends AbstractController
             /** @var User $user */
             $email = $form->get('email')->getData();
 
-            $user = $userRepository->findUserByEmail($email);
+            $user = $userRepository->findOneByEmail($email);
 
             if ($user) {
                 $token = bin2hex(random_bytes(60));
                 $user->setToken($token);
 
-                $entityManager->persist($user);
-                $entityManager->flush();
+                $em->persist($user);
+                $em->flush();
 
                 $email = (new TemplatedEmail())
                     ->from(new Address('support@snowtricks.com', 'Snowtricks'))
@@ -133,6 +133,8 @@ class SecurityController extends AbstractController
                     ]);
 
                 $mailer->send($email);
+
+                dd($email);
                 //@TODO add flash message
             }
 
