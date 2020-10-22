@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,6 +37,47 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/profil", name="app_profil")
+     */
+    public function profil(EntityManagerInterface $em, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        return $this->render('security/profil.html.twig');
+    }
+
+    /**
+     * @Route("/profil/modify", name="app_profil_modify")
+     */
+    public function modify(EntityManagerInterface $em, Request $request, UserRepository $userRepository)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $form = $this->createForm(UserFormType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $form->getData();
+
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('app_profil');
+        }
+
+        return $this->render(
+            'security/modify.html.twig', [
+                'userForm' => $form->createView(),
+                'user' => $user
+            ]
+        );
+    }
+
+    /**
      * @Route("/logout", name="app_logout")
      */
     public function logout()
@@ -43,8 +86,8 @@ class SecurityController extends AbstractController
     }
 
     /**
- * @Route("/register", name="app_register")
- */
+     * @Route("/register", name="app_register")
+     */
     public function register(MailerInterface $mailer, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
