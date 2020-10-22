@@ -35,6 +35,7 @@
             </div>
             <a href="{{ path('app_trick_add_linked_picture', {id : trick.id}) }}">Ajouter une image</a>
         </div>
+        <br>
         <div>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active">Vidéos liées</li>
@@ -42,10 +43,16 @@
             <div id="video-list">
                 <p>Chargement des vidéos liées <div class="loader"></div></p>
             </div>
-            <a href="#">Ajouter une vidéo</a>
+            <a href="{{ path('app_trick_add_linked_video', {id : trick.id}) }}">Ajouter une vidéo</a>
         </div>
+        <br>
     </div>
 
+    <div>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Contenu du trick</li>
+        </ol>
+    </div>
     <fieldset>
         {{ form_start(trickForm) }}
         <div class="form-group">

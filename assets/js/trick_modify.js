@@ -6,7 +6,7 @@ Routing.setRoutingData(Routes);
 let trick_id = document.getElementById('comment').dataset.commentId;
 let comment_list = document.getElementById('comment-list');
 let picture_list = document.getElementById('picture-list');
-//let video_list = document.getElementById('video-list')
+let video_list = document.getElementById('video-list');
 let loadMoreButton = document.getElementById('load_more_button');
 let numberOfComments = 0;
 
@@ -18,15 +18,48 @@ loadMoreButton.addEventListener('click', function (event)
     printComments()
 })
 
-$('#mytable').delegate('click', 'name^=["qty_"]', function() {
-    console.log("you clicked cell #" . $(this).attr("name"));
-});
 document.addEventListener('DOMContentLoaded', function (event)
 {
     printLinkedPictures();
-    //printLinkedVideos();
+    printLinkedVideos();
     printComments()
 });
+
+function printLinkedVideos()
+{
+    new Promise(function(resolve, reject)
+    {
+        let url = Routing.generate('app_videos_show', {trick : trick_id});
+        let xhr = new XMLHttpRequest();
+
+        xhr.open('GET', url);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.addEventListener('load', function(event)
+        {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    resolve(JSON.parse(this.responseText))
+                } else {
+                    reject(JSON.parse(this.responseText))
+                }
+            }
+        });
+        xhr.send()
+    })
+        .then ((response) => {
+            completeRemove(video_list);
+            generateVideoTable()
+            for (let index = 0; index < response.length; index++)
+            {
+                console.log(response[index])
+                insertLinkedVideoToDom(response[index])
+            }
+            let delete_linked_videos_button = document.getElementsByClassName('linked-picture');
+        })
+        .catch((error) => {
+            alert("OUPS! Une erreur est survenue pendant le chargement des vidéos liées | code = " + error)
+        })
+}
 
 function printLinkedPictures()
 {
@@ -57,7 +90,6 @@ function printLinkedPictures()
                 insertLinkedPictureToDom(response[index])
             }
             let delete_linked_pictures_button = document.getElementsByClassName('linked-picture');
-            console.log(delete_linked_pictures_button)
         })
         .catch((error) => {
             alert("OUPS! Une erreur est survenue pendant le chargement des images liées | code = " + error)
@@ -152,9 +184,8 @@ function insertLinkedPictureToDom(data)
     a.textContent = 'supprimer'
 
     img.src = '../../pictures/tricksPictures/linked/'+data.path;
-    img.width = 80;
-    img.height = 80;
-
+    img.width = 100;
+    img.height = 100;
 
     picture_list.firstChild.lastChild.appendChild(tr);
     th.appendChild(img)
@@ -167,13 +198,49 @@ function insertLinkedPictureToDom(data)
     tr.appendChild(td3);
 }
 
+function insertLinkedVideoToDom(data)
+{
+    let tr = createElement('tr');
+    let th = createElement('td');
+    let td = createElement('td');
+    let td2 = createElement('td');
+
+    let a = createElement('a');
+    let iframe = document.createElement('iframe');
+
+    tr.classList.add("linked-video");
+
+    a.href = Routing.generate('app_trick_delete_linked_video', {id : data.id})
+    a.textContent = 'supprimer'
+
+    iframe.src = 'https://www.youtube.com/embed/'+data.url;
+    iframe.width = 450;
+    iframe.height = 225;
+
+    video_list.firstChild.lastChild.appendChild(tr);
+    th.appendChild(iframe)
+    tr.appendChild(th);
+    td.textContent = data.createdAt
+    tr.appendChild(td);
+    td2.appendChild(a)
+    tr.appendChild(td2);
+}
+
 function generatePictureTable()
 {
     let columns = ["apercu", "legende", "ajouté le", "supprimer"]
-    generateTable(columns)
+    let list = picture_list
+    generateTable(columns, list)
 }
 
-function generateTable(columns)
+function generateVideoTable()
+{
+    let columns = ["lecteur", "ajouté le", "supprimer"]
+    let list = video_list
+    generateTable(columns, list)
+}
+
+function generateTable(columns, list)
 {
     let table = createElement('table');
     let thead = createElement('thead');
@@ -183,7 +250,7 @@ function generateTable(columns)
     table.classList.add("table");
     table.classList.add("table-hover");
 
-    picture_list.appendChild(table);
+    list.appendChild(table);
     table.appendChild(thead);
     thead.appendChild(tr);
     for (let index = 0; index < columns.length; index++)
