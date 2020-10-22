@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserFormType;
 use App\Repository\UserRepository;
+use App\Service\UploadHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,7 +50,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/profil/modify", name="app_profil_modify")
      */
-    public function modify(EntityManagerInterface $em, Request $request, UserRepository $userRepository)
+    public function modify(EntityManagerInterface $em, Request $request, UserRepository $userRepository, UploadHelper $uploadHelper)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -62,6 +63,13 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $form->getData();
+
+            $pictureFile = $form->get('picturePath')->getData();
+
+            if ($pictureFile) {
+                $newFilename = $uploadHelper->uploadProfilePicture($pictureFile);
+                $user->setPicturePath($newFilename);
+            }
 
             $em->persist($user);
             $em->flush();

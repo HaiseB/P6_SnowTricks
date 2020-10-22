@@ -27,6 +27,10 @@ class UploadHelper
         return $this->uploadTrickPicture($uploadedFile, $this->params->get('linked_picture_directory'));
     }
 
+    public function uploadProfilePicture(UploadedFile $uploadedFile){
+        return $this->uploadTrickPicture($uploadedFile, $this->params->get('profil_picture_directory'));
+    }
+
     public function uploadTrickPicture(UploadedFile $uploadedFile, string $destination) :string
     {
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
