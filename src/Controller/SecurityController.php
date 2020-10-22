@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,13 +47,15 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/profil/{id}/modify", name="app_profil_modify")
+     * @Route("/profil/modify", name="app_profil_modify")
      */
-    public function modify(EntityManagerInterface $em, Request $request, User $user)
+    public function modify(EntityManagerInterface $em, Request $request, UserRepository $userRepository)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $form = $this->createForm(UserFormType::class, $user );
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $form = $this->createForm(UserFormType::class, $user);
 
         $form->handleRequest($request);
 
