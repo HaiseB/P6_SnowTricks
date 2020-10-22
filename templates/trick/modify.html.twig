@@ -78,6 +78,9 @@
         <button type="submit" class="btn btn-success btn-block">Enregistrer</button>
         {{ form_end(trickForm) }}
     </fieldset>
+    {% if app.user.id == trick.user.id %}
+        <a href="{{ path('app_trick_delete', {id : trick.id}) }}" >Supprimer le trick</a>
+    {% endif %}
     <hr>
     <section class="text-center">
     <h3>Espace commentaire</h3>
