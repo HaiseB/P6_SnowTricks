@@ -3,7 +3,8 @@ Projet 6 of the "parcours développeur d'application PHP/Symfony" by Openclassro
 
 This project consist of a collaborative site for snowboard fan.
 
-Link to code climate here https://codeclimate.com/github/HaiseB/P6_SnowTricks
+[![Maintainability](https://api.codeclimate.com/v1/badges/0562845500cb95ae0528/maintainability)](https://codeclimate.com/github/HaiseB/P6_SnowTricks/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/0562845500cb95ae0528/test_coverage)](https://codeclimate.com/github/HaiseB/P6_SnowTricks/test_coverage)
 
 ## Table of Contents
 1. [Pre required](#Pre-required)
