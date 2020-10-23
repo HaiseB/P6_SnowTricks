@@ -5,9 +5,9 @@ Routing.setRoutingData(Routes);
 
 let trick_id = document.getElementById('comment').dataset.commentId;
 let comment_list = document.getElementById('comment-list');
-let comment_form = document.getElementsByName('comment_form');
 let loadMoreButton = document.getElementById('load_more_button');
 let numberOfComments = 0;
+let comment_form = document.getElementsByName('comment_form');
 
 loadMoreButton.style.display = "none";
 
@@ -75,19 +75,12 @@ function insertToDom(data)
     //profil picture
     let img = document.createElement('img');
 
-    const current_page = getPage();
-    if (current_page === 'show') {
-        if (data.user.picturePath === null){
-            img.src = '../pictures/profilPictures/defaultProfilPicture.png';
-        } else {
-            img.src = '../pictures/profilPictures/'+data.user.picturePath;
-        }
+    let startPath = getStartPathProfilePicture();
+
+    if (data.user.picturePath === null){
+        img.src = startPath+'pictures/profilPictures/defaultProfilPicture.png';
     } else {
-        if (data.user.picturePath === null){
-            img.src = '../../pictures/profilPictures/defaultProfilPicture.png';
-        } else {
-            img.src = '../../pictures/profilPictures/'+data.user.picturePath;
-        }
+        img.src = startPath+'pictures/profilPictures/'+data.user.picturePath;
     }
 
     img.width = 30;
@@ -151,10 +144,10 @@ comment_form[0].addEventListener('submit', function (event)
         })
 });
 
-function getPage()
+function getStartPathProfilePicture()
 {
-    let url = window.location.href;
+    const url = window.location.href;
     const word = 'modify';
 
-    return url.includes(word) ? 'modify' : 'show';
+    return url.includes(word) ? '../../' : '../';
 }
