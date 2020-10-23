@@ -7,7 +7,6 @@ use App\Form\UserForgotPasswordFormType;
 use App\Form\UserNewPasswordFormType;
 use App\Repository\UserRepository;
 use App\Form\UserFormType;
-use App\Repository\UserRepository;
 use App\Service\UploadHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -15,10 +14,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
 use App\Form\UserRegistrationFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -136,21 +133,21 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirm_register/{id}/{token}", name="app_confirm_register")
      */
-    public function confirm_register(EntityManagerInterface $em, User $user)
+    public function confirmRegister(EntityManagerInterface $em, User $user)
     {
         $user->setIsRegistered(true);
 
         $em->persist($user);
         $em->flush();
+      
         //@TODO add flash message
-
         return $this->redirectToRoute('app_login');
     }
 
     /**
      * @Route("/forgot_password", name="app_forgot_password")
      */
-    public function forgot_password(MailerInterface $mailer, UserRepository $userRepository, EntityManagerInterface $em, Request $request)
+    public function forgotPassword(MailerInterface $mailer, UserRepository $userRepository, EntityManagerInterface $em, Request $request)
     {
         $form = $this->createForm(UserForgotPasswordFormType::class);
 
@@ -194,9 +191,9 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/change_password/{id}/{token}", name="app_change_password")
+     * @Route("/change_forgoten_password/{id}/{token}", name="app_change_forgoten_password")
      */
-    public function change_password(EntityManagerInterface $em, User $user, Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function changeForgotenPassword(EntityManagerInterface $em, User $user, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         if ($user->getAskedResetPassword() === true) {
             $form = $this->createForm(UserNewPasswordFormType::class );

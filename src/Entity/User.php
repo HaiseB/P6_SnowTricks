@@ -216,6 +216,17 @@ class User implements UserInterface
 
         return $this;
     }
+    public function getAskedResetPassword(): ?bool
+    {
+        return $this->askedResetPassword;
+    }
+
+    public function setAskedResetPassword(bool $askedResetPassword): self
+    {
+        $this->askedResetPassword = $askedResetPassword;
+
+        return $this;
+    }
 
     public function getAskedResetPassword(): ?bool
     {
