@@ -139,7 +139,7 @@ class SecurityController extends AbstractController
 
         $em->persist($user);
         $em->flush();
-
+      
         //@TODO add flash message
         return $this->redirectToRoute('app_login');
     }
