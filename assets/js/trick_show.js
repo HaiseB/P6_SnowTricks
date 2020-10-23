@@ -74,11 +74,22 @@ function insertToDom(data)
     let textNode = document.createTextNode(' ' + data.user.username + ' - ' + data.createdAt);
     //profil picture
     let img = document.createElement('img');
-    if (data.user.picturePath === null){
-        img.src = '../pictures/profilPictures/defaultProfilPicture.png';
+
+    const current_page = getPage();
+    if (current_page === 'show') {
+        if (data.user.picturePath === null){
+            img.src = '../pictures/profilPictures/defaultProfilPicture.png';
+        } else {
+            img.src = '../pictures/profilPictures/'+data.user.picturePath;
+        }
     } else {
-        img.src = '../pictures/profilPictures/'+data.user.picturePath;
+        if (data.user.picturePath === null){
+            img.src = '../../pictures/profilPictures/defaultProfilPicture.png';
+        } else {
+            img.src = '../../pictures/profilPictures/'+data.user.picturePath;
+        }
     }
+
     img.width = 30;
     img.height = 30;
     img.classList.add("rounded-circle");
@@ -139,3 +150,11 @@ comment_form[0].addEventListener('submit', function (event)
             alert('OUPS! Une erreur est survenue pendant la création du commentaire || code => ' + error)
         })
 });
+
+function getPage()
+{
+    let url = window.location.href;
+    const word = 'modify';
+
+    return url.includes(word) ? 'modify' : 'show';
+}
