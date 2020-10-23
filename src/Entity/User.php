@@ -58,6 +58,11 @@ class User implements UserInterface
     private $isRegistered = false;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $askedResetPassword = false;
+
+    /**
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
@@ -208,6 +213,18 @@ class User implements UserInterface
     public function setIsRegistered(bool $isRegistered): self
     {
         $this->isRegistered = $isRegistered;
+
+        return $this;
+    }
+
+    public function getAskedResetPassword(): ?bool
+    {
+        return $this->askedResetPassword;
+    }
+
+    public function setAskedResetPassword(bool $askedResetPassword): self
+    {
+        $this->askedResetPassword = $askedResetPassword;
 
         return $this;
     }
