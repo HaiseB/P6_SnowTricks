@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Mon profil : {{ user.username }}
+{% endblock %}
+
+{% block body %}
+    <h1>Modifer mon profil {{ user.username }}</h1>
+
+    <fieldset>
+        {{ form_start(userForm) }}
+        <div class="form-group">
+            {{ form_errors(userForm) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(userForm.username) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(userForm.email) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(userForm.picturePath) }}
+        </div>
+
+        <button type="submit" class="btn btn-success btn-block">Enregistrer</button>
+        {{ form_end(userForm) }}
+    </fieldset>
+{% endblock %}

@@ -1,16 +1,58 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Modifer {{ trick.name }}
+    Modifer : {{ trick.name }}
 {% endblock %}
 
 {% block body %}
-    <h1>Modifer {{ trick.name }}</h1>
+    {% if trick.isOnline == false  %}
+        <div class="text-center"><p class="text-danger">Ce trick n'est <strong>pas encore en ligne</strong>!
+                Pour l'instant, il n'y a que toi qui peut le voir, dépêches-toi de le <strong>partager</strong></p>
+        </div>
+    {% endif %}
+    {% if mainPicture|length == 0 %}
+        <div class="text-center banner">
+            <p class="text-danger">Ce trick n'a <strong>pas encore d'image principale</strong>, Ajoutes-en une en <a href="{{ path('app_trick_add_main_picture', {id : trick.id}) }}">cliquant ici</a></p>
+            <h1><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
+        </div>
+    {% else %}
+        <div class="text-center banner" style="background-image: url({{ asset('pictures/tricksPictures/mains/'~mainPicture.0.path~'') }});">
+            <a href="{{ path('app_trick_add_main_picture', {id : trick.id}) }}">Modifier</a>
+            <a href="{{ path('app_trick_delete_main_picture', {id : trick.id}) }}">Supprimer</a>
+            <h1><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
+        </div>
+        {% if mainPicture.0.legend|length > 0 %}
+            <p class="text-center">Description : {{ mainPicture.0.legend }}</p>
+        {% endif %}
+    {% endif %}
+    <div id="media" class="text-center">
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Images liées</li>
+            </ol>
+            <div id="picture-list">
+                <p>Chargement des images liées <div class="loader"></div></p>
+            </div>
+            <a href="{{ path('app_trick_add_linked_picture', {id : trick.id}) }}">Ajouter une image</a>
+        </div>
+        <br>
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Vidéos liées</li>
+            </ol>
+            <div id="video-list">
+                <p>Chargement des vidéos liées <div class="loader"></div></p>
+            </div>
+            <a href="{{ path('app_trick_add_linked_video', {id : trick.id}) }}">Ajouter une vidéo</a>
+        </div>
+        <br>
+    </div>
 
-    <hr>
-        <h2>@TODO : Partie gestion images / vidéos liés</h2>
-    <hr>
-
+    <div>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Contenu du trick</li>
+        </ol>
+    </div>
     <fieldset>
         {{ form_start(trickForm) }}
         <div class="form-group">
@@ -36,17 +78,30 @@
         <button type="submit" class="btn btn-success btn-block">Enregistrer</button>
         {{ form_end(trickForm) }}
     </fieldset>
+    {% if app.user.id == trick.user.id %}
+        <a href="{{ path('app_trick_delete', {id : trick.id}) }}" >Supprimer le trick</a>
+    {% endif %}
+    <hr>
+    <section class="text-center">
+    <h3>Espace commentaire</h3>
+        <div id="comment-list">
+            <div class="loader"></div>
+        </div>
+        <a class="btn btn-primary" id="load_more_button">Charger plus</a>
+    </section>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {#<script src="https://cdn.tiny.cloud/1/z80yiesiw6qlrl3y4gzy6j3zqw7ujm1dt0d5e7bjnujmen16/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    {{ encore_entry_script_tags('trick_modify') }}
+    <script src="https://cdn.tiny.cloud/1/z80yiesiw6qlrl3y4gzy6j3zqw7ujm1dt0d5e7bjnujmen16/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector: 'textarea',
             language: 'fr_FR',
-            plugins: 'advlist autolink lists link charmap print preview hr anchor pagebreak',
+            plugins: 'advlist autolink lists link charmap print preview hr anchor pagebreak fullscreen',
+            toolbar: 'fullscreen undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect',
             toolbar_mode: 'floating',
         });
-    </script>#}
+    </script>
 {% endblock %}

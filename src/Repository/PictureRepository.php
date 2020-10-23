@@ -19,22 +19,45 @@ class PictureRepository extends ServiceEntityRepository
         parent::__construct($registry, Picture::class);
     }
 
-    // /**
-    //  * @return Picture[] Returns an array of Picture objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Picture/null Returns an Picture Object
+     */
+    public function findMainPictureByTrick($trick)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.trick = :val')
+            ->andWhere('c.isMain = true')
+            ->andWhere('c.isDeleted = false')
+            ->setParameter('val', $trick)
+            ->orderBy('c.id', 'DESC')
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
+
+    /**
+     * @return Picture[]  Returns an array of Picture Objects
+     */
+    public function findPicturesByTrickExceptMain($trick)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.trick = :val')
+            ->andWhere('c.isMain = false')
+            ->andWhere('c.isDeleted = false')
+            ->setParameter('val', $trick)
+            ->orderBy('c.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function delete($picture, $em) :void
+    {
+        $picture->setIsDeleted(true);
+        $em->persist($picture);
+        $em->flush();
+    }
 
     /*
     public function findOneBySomeField($value): ?Picture
