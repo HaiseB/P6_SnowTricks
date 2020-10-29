@@ -73,19 +73,7 @@ function insertToDom(data)
     let $strong_element = createElement('strong');
     let textNode = document.createTextNode(' ' + data.user.username + ' - ' + data.createdAt);
     //profil picture
-    let img = document.createElement('img');
-
-    let startPath = getStartPathProfilePicture();
-
-    if (data.user.picturePath === null){
-        img.src = startPath+'pictures/profilPictures/defaultProfilPicture.png';
-    } else {
-        img.src = startPath+'pictures/profilPictures/'+data.user.picturePath;
-    }
-
-    img.width = 30;
-    img.height = 30;
-    img.classList.add("rounded-circle");
+    let img = getProfilPicture(data);
 
     $strong_element.appendChild(textNode);
     $span_element.appendChild($strong_element);
@@ -150,4 +138,22 @@ function getStartPathProfilePicture()
     const word = 'modify';
 
     return url.includes(word) ? '../../' : '../';
+}
+
+function getProfilPicture(data)
+{
+    let startPath = getStartPathProfilePicture();
+    let img = document.createElement('img');
+
+    if (data.user.picturePath === null){
+        img.src = startPath+'pictures/profilPictures/defaultProfilPicture.png';
+    } else {
+        img.src = startPath+'pictures/profilPictures/'+data.user.picturePath;
+    }
+
+    img.width = 30;
+    img.height = 30;
+    img.classList.add("rounded-circle");
+
+    return img
 }
