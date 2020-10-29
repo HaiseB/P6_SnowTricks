@@ -39,7 +39,7 @@ class PictureController extends AbstractController
      */
     public function newMain(EntityManagerInterface $em, Request $request, PictureRepository $pictureRepository, Trick $trick, UploadHelper $uploadHelper)
     {
-        $pictureForm = $this->createForm(PictureFormType::class );
+        $pictureForm = $this->createForm(PictureFormType::class);
 
         $mainPicture = $pictureRepository->findMainPictureByTrick($trick);
 
@@ -81,7 +81,7 @@ class PictureController extends AbstractController
      */
     public function newLinked(EntityManagerInterface $em, Request $request, Trick $trick, UploadHelper $uploadHelper)
     {
-        $pictureForm = $this->createForm(PictureFormType::class );
+        $pictureForm = $this->createForm(PictureFormType::class);
 
         $pictureForm->handleRequest($request);
 

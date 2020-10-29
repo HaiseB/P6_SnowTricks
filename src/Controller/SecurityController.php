@@ -114,9 +114,7 @@ class SecurityController extends AbstractController
                 ->to(new Address($user->getEmail(), $user->getUsername()))
                 ->subject('Bienvenue sur Snowtricks!')
                 ->htmlTemplate('email/register.html.twig')
-                ->context([
-                    'user' => $user
-                ]);
+                ->context(['user' => $user]);
 
             $mailer->send($email);
             //@TODO add flash message
@@ -139,7 +137,7 @@ class SecurityController extends AbstractController
 
         $em->persist($user);
         $em->flush();
-      
+
         //@TODO add flash message
         return $this->redirectToRoute('app_login');
     }
@@ -172,9 +170,7 @@ class SecurityController extends AbstractController
                     ->to(new Address($user->getEmail(), $user->getUsername()))
                     ->subject('Demande de réinitialisation de mot de passe')
                     ->htmlTemplate('email/forgot_password.html.twig')
-                    ->context([
-                        'user' => $user
-                    ]);
+                    ->context(['user' => $user]);
 
                 $mailer->send($email);
             }
@@ -196,7 +192,7 @@ class SecurityController extends AbstractController
     public function changeForgotenPassword(EntityManagerInterface $em, User $user, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         if ($user->getAskedResetPassword() === true) {
-            $form = $this->createForm(UserNewPasswordFormType::class );
+            $form = $this->createForm(UserNewPasswordFormType::class);
 
             $form->handleRequest($request);
 

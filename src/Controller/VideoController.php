@@ -39,7 +39,7 @@ class VideoController extends AbstractController
      */
     public function new(EntityManagerInterface $em, Request $request, Trick $trick)
     {
-        $videoForm = $this->createForm(VideoFormType::class );
+        $videoForm = $this->createForm(VideoFormType::class);
 
         $videoForm->handleRequest($request);
 
