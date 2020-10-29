@@ -5,11 +5,17 @@ namespace App\Entity;
 use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
+ * @UniqueEntity(
+ *  fields={"name"},
+ *  message="Un trick possède déjà ce nom, merci de le modifier"
+ * )
  */
 class Trick
 {
@@ -22,8 +28,15 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\Length(min=10, minMessage="Le nom doit faire au moins 10 caractères")
      */
     private $name;
+
+    /**
+     * @ORM\Column(length=128, unique=true)
+     * @Gedmo\Slug(fields={"name"})
+     */
+    private $slug;
 
     /**
      * @ORM\Column(type="text")
@@ -122,6 +135,18 @@ class Trick
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

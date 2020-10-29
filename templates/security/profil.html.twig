@@ -20,7 +20,7 @@
     <ul>
     {% for trick in app.user.tricks %}
         <li>
-            <a href="{{ path('app_trick_show', {id : trick.id}) }}">{{ trick.name }}</a>
+            <a href="{{ path('app_trick_show', {slug : trick.slug}) }}">{{ trick.name }}</a>
             <span>{{ trick.comments | length }} commentaires</span>
         </li>
     {% endfor %}

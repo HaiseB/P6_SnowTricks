@@ -6,7 +6,7 @@
     {% for trick in tricks %}
         <div>
             {{ trick.name }} |
-            <a href="{{ path('app_trick_show', {id : trick.id}) }}" >Aller au trick</a> |
+            <a href="{{ path('app_trick_show', {slug : trick.slug}) }}" >Aller au trick</a> |
             {{ trick.tag.name  }}
         </div>
     {% endfor %}
