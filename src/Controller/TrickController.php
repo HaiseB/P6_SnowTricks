@@ -87,6 +87,8 @@ class TrickController extends AbstractController
      */
     public function modify(EntityManagerInterface $em, Request $request, Trick $trick, PictureRepository $pictureRepository)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $form = $this->createForm(TrickFormType::class, $trick);
         $form->remove('path');
         $form->remove('legend');
@@ -119,12 +121,14 @@ class TrickController extends AbstractController
      */
     public function delete(EntityManagerInterface $em, Trick $trick)
     {
-            $trick->setIsDeleted(true);
+        $this->denyAccessUnlessGranted('ROLE_USER');
 
-            $em->persist($trick);
-            $em->flush();
+        $trick->setIsDeleted(true);
 
-            return $this->redirectToRoute('app_homepage');
+        $em->persist($trick);
+        $em->flush();
+
+        return $this->redirectToRoute('app_homepage');
     }
 
     /**
@@ -135,8 +139,6 @@ class TrickController extends AbstractController
         $form = $this->createForm(CommentFormType::class );
 
         $form->handleRequest($request);
-
-        $mainPicture = $pictureRepository->findMainPictureByTrick($trick);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($request->isXmlHttpRequest()) {

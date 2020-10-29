@@ -118,7 +118,7 @@ class SecurityController extends AbstractController
 
             $mailer->send($email);
 
-            $this->addFlash('success', "Un mail de confirmation viens d'être envoyé à ce mail");
+            $this->addFlash('success', "Un mail de validation viens d'être envoyé pour activer le compte");
 
             return $this->redirectToRoute('app_homepage');
         }

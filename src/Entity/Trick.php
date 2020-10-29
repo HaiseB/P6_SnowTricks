@@ -28,7 +28,7 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Length(min=10, minMessage="Le nom doit faire au moins 10 caractères")
+     * @Assert\Length(min=4, minMessage="Le nom doit faire au moins 10 caractères")
      */
     private $name;
 
@@ -40,6 +40,7 @@ class Trick
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=100, minMessage="Le contenu doit faire au moins 100 caractères")
      */
     private $content;
 
