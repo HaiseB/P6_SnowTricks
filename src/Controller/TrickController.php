@@ -67,9 +67,12 @@ class TrickController extends AbstractController
 
                 $em->persist($picture);
                 $em->flush();
+
             }
 
-            return $this->redirectToRoute('app_trick_show', ['id' => $trick->getId()]);
+            $this->addFlash('success', "Le trick à bien été créé");
+
+            return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render(
