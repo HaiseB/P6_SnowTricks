@@ -74,6 +74,19 @@
             {% endblock %}
         </div>
         <footer>
+            <div class="d-flex justify-content-around">
+                <a href="#" class="btn-footer"><i class="fab fa-twitter"></i></a>
+            </div>
+            <hr>
+            <div class="col-12">
+                <a href="{{ path('app_homepage') }}">Accueil</a>
+                <span>|</span>
+                <a href="#">Mentions légales</a>
+            </div>
+            <hr>
+            <div class="col-12">
+                <span class="signature">© 2020 | <strong>Snowtricks.com</strong> | Tous droits réservés.</span>
+            </div>
         </footer>
         {% block javascripts %}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
