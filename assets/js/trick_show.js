@@ -5,9 +5,9 @@ Routing.setRoutingData(Routes);
 
 let trick_id = document.getElementById('comment').dataset.commentId;
 let comment_list = document.getElementById('comment-list');
-let comment_form = document.getElementsByName('comment_form');
 let loadMoreButton = document.getElementById('load_more_button');
 let numberOfComments = 0;
+let comment_form = document.getElementsByName('comment_form');
 
 loadMoreButton.style.display = "none";
 
@@ -73,15 +73,7 @@ function insertToDom(data)
     let $strong_element = createElement('strong');
     let textNode = document.createTextNode(' ' + data.user.username + ' - ' + data.createdAt);
     //profil picture
-    let img = document.createElement('img');
-    if (data.user.picturePath === null){
-        img.src = '../pictures/profilPictures/defaultProfilPicture.png';
-    } else {
-        img.src = '../pictures/profilPictures/'+data.user.picturePath;
-    }
-    img.width = 30;
-    img.height = 30;
-    img.classList.add("rounded-circle");
+    let img = getProfilPicture(data);
 
     $strong_element.appendChild(textNode);
     $span_element.appendChild($strong_element);
@@ -139,3 +131,29 @@ comment_form[0].addEventListener('submit', function (event)
             alert('OUPS! Une erreur est survenue pendant la création du commentaire || code => ' + error)
         })
 });
+
+function getStartPathProfilePicture()
+{
+    const url = window.location.href;
+    const word = 'modify';
+
+    return url.includes(word) ? '../../' : '../';
+}
+
+function getProfilPicture(data)
+{
+    let startPath = getStartPathProfilePicture();
+    let img = document.createElement('img');
+
+    if (data.user.picturePath === null){
+        img.src = startPath+'pictures/profilPictures/defaultProfilPicture.png';
+    } else {
+        img.src = startPath+'pictures/profilPictures/'+data.user.picturePath;
+    }
+
+    img.width = 30;
+    img.height = 30;
+    img.classList.add("rounded-circle");
+
+    return img
+}
