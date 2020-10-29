@@ -1,22 +1,20 @@
-*,body{
-    padding : 0;
-    margin : 0;
+* {
+    margin: 0;
+}
+
+body{
+    height: 100%;
     font-family: 'Source Sans Pro', sans-serif;
 }
 
-.loader {
-    border: 16px solid #f3f3f3;
-    border-top: 16px solid #3498db;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 3s linear infinite;
-    margin: 0 47%;
+.page-wrap {
+    min-height: 100%;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.page-wrap:after {
+    content: "";
+    display: block;
+    height: 142px;
 }
 
 footer{
@@ -32,4 +30,19 @@ footer{
 .signature{
     color: #F2E9CE;
     opacity: 0.5;
+}
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 3s linear infinite;
+    margin: 0 47%;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

@@ -69,19 +69,35 @@
             </div>
         {% endfor %}
 
-        <div class="container">
+        <div class="container page-wrap">
             {% block body %}
             {% endblock %}
         </div>
         <footer>
+            <div class="col-12">
+                <h4 class="text-white">Suivez-nous!</h4>
+            </div>
             <div class="d-flex justify-content-around">
+                <a href="#" class="btn-footer"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="btn-footer"><i class="fab fa-instagram"></i></a>
                 <a href="#" class="btn-footer"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="btn-footer"><i class="fab fa-tiktok"></i></a>
+                <a href="#" class="btn-footer"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" class="btn-footer"><i class="fab fa-youtube"></i></a>
             </div>
             <hr>
-            <div class="col-12">
+            <div class="text-white text-left">
+                <h4>À propos</h4>
+                <p>Snowtricks par et pour les passionnés de snowboard!</p>
+                <p>C'est réseau social collaboratif pour faire connaître ce sport auprès du grand public et aider à l'apprentissage des figures</p>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-around col-12">
                 <a href="{{ path('app_homepage') }}">Accueil</a>
                 <span>|</span>
                 <a href="#">Mentions légales</a>
+                <span>|</span>
+                <a href="#">À propos de <strong>Jimmy Sweat</strong></a>
             </div>
             <hr>
             <div class="col-12">
