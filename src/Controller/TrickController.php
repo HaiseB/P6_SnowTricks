@@ -9,6 +9,7 @@ use App\Form\CommentFormType;
 use App\Form\TrickFormType;
 use App\Repository\PictureRepository;
 use App\Repository\TrickRepository;
+use App\Repository\VideoRepository;
 use App\Service\UploadHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -134,11 +135,15 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{slug}", name="app_trick_show", methods={"GET", "POST"}, options={"expose"=true})
      */
-    public function show(EntityManagerInterface $em, Request $request, Trick $trick, PictureRepository $pictureRepository)
+    public function show(EntityManagerInterface $em, Request $request, Trick $trick, PictureRepository $pictureRepository, VideoRepository $videoRepository)
     {
         $form = $this->createForm(CommentFormType::class );
 
         $form->handleRequest($request);
+
+        $mainPicture = $pictureRepository->findMainPictureByTrick($trick);
+        $linkedPictures = $pictureRepository->findPicturesByTrickExceptMain($trick);
+        $linkedVideos = $videoRepository->findVideosByTrick($trick);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($request->isXmlHttpRequest()) {
@@ -162,7 +167,10 @@ class TrickController extends AbstractController
         return $this->render(
             'trick/show.html.twig', [
                 'trick' => $trick,
-                'commentForm' => $form->createView()
+                'commentForm' => $form->createView(),
+                'mainPicture' => $mainPicture,
+                'linkedPictures' => $linkedPictures,
+                'linkedvideos' => $linkedVideos
             ]
         );
     }

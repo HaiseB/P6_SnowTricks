@@ -16,25 +16,48 @@
             <a href="{{ path('app_trick_modify', {slug : trick.slug}) }}" >Modifier mon trick</a>
         {% endif %}
     {% endif %}
-    <h1 id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</h1>
+    <div class="text-center banner" style="background-image:
+        {% if mainPicture|length == 0 %}
+            url({{ asset('pictures/tricksPictures/mains/default.jpg') }});">
+        {% else %}
+            url({{ asset('pictures/tricksPictures/mains/'~mainPicture.0.path~'') }});">
+            {% if mainPicture.0.legend|length > 0 %}
+                <p class="text-center">Description : {{ mainPicture.0.legend }}</p>
+            {% endif %}
+        {% endif %}
+        <h1><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
+    </div>
 </div>
 
 <section>
-    {% for video in trick.videos %}
-        <div>
-            {{ video.id }} | {{ video.url }}
-        </div>
-    {% endfor %}
-    {% for picture in trick.pictures %}
+    {% for picture in linkedPictures %}
         <div>
             {{ picture.id }} | {{ picture.path }}
+        </div>
+    {% endfor %}
+    {% for video in linkedvideos %}
+        <div>
+            {{ video.id }} | {{ video.url }}
         </div>
     {% endfor %}
 </section>
 
 <section>
-    <p>{{ trick.content | raw }}</p>
-    <p>créé par {{ trick.user.username }} | catégorie {{ trick.tag.name }} | créé le {{ trick.createdAt |date("m/d/Y")  }} | dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }}</p>
+    <div class="text-right">
+        <span class="badge badge-pill badge-primary">catégorie {{ trick.tag.name }}</span>
+        <span class="badge badge-pill badge-primary">créé le {{ trick.createdAt |date("m/d/Y")  }}</span>
+    </div>
+    <div class="jumbotron text-left">
+        <i class="fas fa-quote-left"></i>
+        <p>{{ trick.content | raw }}</p>
+    </div>
+    <div class="text-left">
+        {% if trick.user.picturePath != '' %}
+            <img src="{{ asset('pictures/profilPictures/'~app.user.picturePath~'') }}" width="30" height="30" class="rounded-circle">
+        {% endif %}
+        <span class="badge badge-pill badge-primary">par {{ trick.user.username }}</span>
+        <span class="badge badge-pill badge-primary">dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }}</span>
+    </div>
 </section>
 
 <hr>
