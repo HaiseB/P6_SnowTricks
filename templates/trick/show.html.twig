@@ -52,11 +52,12 @@
             <img src="{{ asset('pictures/profilPictures/'~trick.user.picturePath~'') }}" width="45" height="45" class="rounded-circle">
         {% endif %}
         <span class="badge badge-pill badge-primary">par {{ trick.user.username }}</span>
+        <span class="badge badge-pill badge-primary">catégorie {{ trick.tag.name }}</span>
         <span class="badge badge-pill badge-primary">créé le {{ trick.createdAt |date("m/d/Y")  }}</span>
-        <span class="badge badge-pill badge-success">catégorie {{ trick.tag.name }}</span>
-        {% if trick.createdAt |date("m/d/Y") == trick.updatedAt |date("m/d/Y") %}
-            <span class="badge badge-pill badge-success">dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }}</span>
+        {% if trick.createdAt |date("m/d/Y") != trick.updatedAt |date("m/d/Y") %}
+            <span class="badge badge-pill badge-primary">dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }}</span>
         {% endif %}
+        <span class="badge badge-pill badge-primary">commentaires {{ trick.comments.count }}</span>
     </div>
 </section>
 
