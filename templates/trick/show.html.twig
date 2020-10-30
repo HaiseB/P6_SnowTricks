@@ -11,12 +11,7 @@
                 Pour l'instant il n'y a que toi qui peut le voir, dépêches-toi de le <strong>partager</strong></p>
         </div>
     {% endif %}
-    {% if app.user %}
-        {% if app.user.id == trick.user.id %}
-            <a href="{{ path('app_trick_modify', {slug : trick.slug}) }}" >Modifier mon trick</a>
-        {% endif %}
-    {% endif %}
-    <div class="text-center banner" style="background-image:
+    <div class="text-center banner shadow-lg p-3 mb-5 bg-white rounded" style="background-image:
         {% if mainPicture|length == 0 %}
             url({{ asset('pictures/tricksPictures/mains/default.jpg') }});">
         {% else %}
@@ -25,38 +20,44 @@
                 <p class="text-center">Description : {{ mainPicture.0.legend }}</p>
             {% endif %}
         {% endif %}
+        {% if app.user %}
+            <a href="{{ path('app_trick_modify', {slug : trick.slug}) }}" >Modifier mon trick</a>
+        {% endif %}
         <h1><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
     </div>
 </div>
 
-<section>
+<section id="media">
     {% for picture in linkedPictures %}
-        <div>
-            {{ picture.id }} | {{ picture.path }}
-        </div>
+    <div>
+        <img src="{{ asset('pictures/tricksPictures/linked/'~picture.path~'') }}">
+    </div>
     {% endfor %}
     {% for video in linkedvideos %}
         <div>
-            {{ video.id }} | {{ video.url }}
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video.url }}"
+                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+            </iframe>
         </div>
     {% endfor %}
+    <
 </section>
 
 <section>
-    <div class="text-right">
-        <span class="badge badge-pill badge-primary">catégorie {{ trick.tag.name }}</span>
-        <span class="badge badge-pill badge-primary">créé le {{ trick.createdAt |date("m/d/Y")  }}</span>
-    </div>
-    <div class="jumbotron text-left">
+    <div class="text-left shadow-lg p-3 mb-5 bg-white rounded">
         <i class="fas fa-quote-left"></i>
         <p>{{ trick.content | raw }}</p>
     </div>
-    <div class="text-left">
+    <div class="text-center">
         {% if trick.user.picturePath != '' %}
-            <img src="{{ asset('pictures/profilPictures/'~app.user.picturePath~'') }}" width="30" height="30" class="rounded-circle">
+            <img src="{{ asset('pictures/profilPictures/'~trick.user.picturePath~'') }}" width="45" height="45" class="rounded-circle">
         {% endif %}
         <span class="badge badge-pill badge-primary">par {{ trick.user.username }}</span>
-        <span class="badge badge-pill badge-primary">dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }}</span>
+        <span class="badge badge-pill badge-primary">créé le {{ trick.createdAt |date("m/d/Y")  }}</span>
+        <span class="badge badge-pill badge-success">catégorie {{ trick.tag.name }}</span>
+        {% if trick.createdAt |date("m/d/Y") == trick.updatedAt |date("m/d/Y") %}
+            <span class="badge badge-pill badge-success">dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }}</span>
+        {% endif %}
     </div>
 </section>
 
