@@ -10,16 +10,21 @@
                 Pour l'instant, il n'y a que toi qui peut le voir, dépêches-toi de le <strong>partager</strong></p>
         </div>
     {% endif %}
+
+    <ol class="breadcrumb" id="breadcrumb-trick-modify">
+        <li class="breadcrumb-item active"><a href="{{ path('app_trick_show', {slug : trick.slug}) }}">{{ trick.name }}</a></li>
+        <li class="breadcrumb-item active">Modifier</li>
+    </ol>
     {% if mainPicture|length == 0 %}
         <div class="text-center banner">
             <p class="text-danger">Ce trick n'a <strong>pas encore d'image principale</strong>, Ajoutes-en une en <a href="{{ path('app_trick_add_main_picture', {id : trick.id}) }}">cliquant ici</a></p>
-            <h1><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
+            <h1 id="trick-name"><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
         </div>
     {% else %}
         <div class="text-center banner" style="background-image: url({{ asset('pictures/tricksPictures/mains/'~mainPicture.0.path~'') }});">
             <a href="{{ path('app_trick_add_main_picture', {id : trick.id}) }}">Modifier</a>
             <a href="{{ path('app_trick_delete_main_picture', {id : trick.id}) }}">Supprimer</a>
-            <h1><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
+            <h1 id="trick-name"><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
         </div>
         {% if mainPicture.0.legend|length > 0 %}
             <p class="text-center">Description : {{ mainPicture.0.legend }}</p>
