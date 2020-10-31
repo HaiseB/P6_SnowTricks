@@ -18,8 +18,13 @@
             url({{ asset('pictures/tricksPictures/mains/'~mainPicture.0.path~'') }});">
         {% endif %}
         {% if app.user %}
-            <a href="{{ path('app_trick_modify', {slug : trick.slug}) }}" >Modifier mon trick</a>
-            <a href="{{ path('app_trick_delete', {id : trick.id}) }}" >Supprimer le trick</a>
+            <div class="crud-buttons">
+                <span class="badge badge-pill badge-light">
+                    <a href="{{ path('app_trick_modify', {slug : trick.slug}) }}"><i class="fas fa-pen"></i></a>
+                    <span class="text-success">|</span>
+                    <a href="{{ path('app_trick_delete', {id : trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                </span>
+            </div>
         {% endif %}
         <h1><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
     </div>

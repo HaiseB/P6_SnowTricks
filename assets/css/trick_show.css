@@ -4,3 +4,8 @@
     background-repeat: no-repeat;
     background-position:center center;
 }
+
+.crud-buttons {
+    font-size : 2em;
+    margin-left: 72%;
+}
