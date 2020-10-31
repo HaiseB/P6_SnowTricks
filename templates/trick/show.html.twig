@@ -16,12 +16,10 @@
             url({{ asset('pictures/tricksPictures/mains/default.jpg') }});">
         {% else %}
             url({{ asset('pictures/tricksPictures/mains/'~mainPicture.0.path~'') }});">
-            {% if mainPicture.0.legend|length > 0 %}
-                <p class="text-center">Description : {{ mainPicture.0.legend }}</p>
-            {% endif %}
         {% endif %}
         {% if app.user %}
             <a href="{{ path('app_trick_modify', {slug : trick.slug}) }}" >Modifier mon trick</a>
+            <a href="{{ path('app_trick_delete', {id : trick.id}) }}" >Supprimer le trick</a>
         {% endif %}
         <h1><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
     </div>
