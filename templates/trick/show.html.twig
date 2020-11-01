@@ -32,19 +32,23 @@
 
 <section id="media" class="media-show">
     {% for picture in linkedPictures %}
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 trick-linked-picture-card">
-            <img src="{{ asset('pictures/tricksPictures/linked/'~picture.path~'') }}"
-                 alt="{{ picture.legend }}" class="trick-picture"
-                 width="250" height="250"
+        <div class="col-12 col-md-4 shadow-lg p-3 mb-5 bg-white rounded trick-linked-picture-card">
+            <a href="{{ asset('pictures/tricksPictures/linked/'~picture.path~'') }}" class="html5lightbox"
+            {% if picture.legend != '' %}
+                title="{{ picture.legend }}"
+            {% endif %}
             >
+                <img src="{{ asset('pictures/tricksPictures/linked/'~picture.path~'') }}"
+                 alt="{{ picture.legend }}" class="trick-picture" height="250">
+            </a>
         </div>
         {% endfor %}
     {% for video in linkedvideos %}
-        {# <div>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video.url }}"
+        <div class="col-12 col-md-4 shadow-lg p-3 mb-5 bg-white rounded text-center">
+            <iframe height="250" src="https://www.youtube.com/embed/{{ video.url }}"
                     frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
             </iframe>
-        </div>#}
+        </div>
     {% endfor %}
 </section>
 
@@ -94,4 +98,6 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('trick_show') }}
+    <script type="text/javascript" src="{{ asset('html5lightbox/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('html5lightbox/html5lightbox.js') }}"></script>
 {% endblock %}
