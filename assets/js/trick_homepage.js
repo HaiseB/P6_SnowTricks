@@ -85,9 +85,8 @@ function insertToDom(data)
     div.classList.add("card");
     div.classList.add("m-3");
     div.classList.add("p-1");
-    //div.classList.add("col-12");
-    div.classList.add("col-sm");
-    a.classList.add("badge-primary");
+    div.classList.add("col-md");
+    a.classList.add("homepage-trick-picture");
     a.href = Routing.generate('app_trick_show', {id : data.name})
     a.style.background = "#f3f3f3 url('../pictures/tricksPictures/main/"+data.picture+"') no-repeat right top";
 
