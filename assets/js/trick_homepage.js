@@ -23,6 +23,11 @@ document.addEventListener('DOMContentLoaded', function (event)
     printTricks()
 });
 
+loadMoreButton.addEventListener('click', function (event)
+{
+    printTricks()
+});
+
 function printTricks()
 {
     new Promise(function(resolve, reject)
@@ -57,7 +62,7 @@ function printTricks()
             }
             numberOfTricks = numberOfTricks+response.length;
 
-            if (response.length < 15 ){
+            if (response.length < 1 ){
                 loadMoreButton.style.display = "none";
             } else {
                 loadMoreButton.style.display = "block";
@@ -78,7 +83,10 @@ function insertToDom(data)
     let pTextNode = document.createTextNode(data.name);
 
     div.classList.add("card");
-    div.classList.add("mb-3");
+    div.classList.add("m-3");
+    div.classList.add("p-1");
+    //div.classList.add("col-12");
+    div.classList.add("col-sm");
     a.classList.add("badge-primary");
     a.href = Routing.generate('app_trick_show', {id : data.name})
     a.style.background = "#f3f3f3 url('../pictures/tricksPictures/main/"+data.picture+"') no-repeat right top";

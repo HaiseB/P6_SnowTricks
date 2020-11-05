@@ -30,7 +30,7 @@ class TrickRepository extends ServiceEntityRepository
             ->setParameter('isDeleted', false)
             ->setParameter('isOnline', true)
             ->orderBy('c.id', 'DESC')
-            ->setMaxResults(20)
+            ->setMaxResults(1)
             ->setFirstResult($offset)
             ->getQuery()
             ->getResult()

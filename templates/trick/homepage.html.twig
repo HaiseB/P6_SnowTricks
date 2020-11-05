@@ -7,20 +7,12 @@
         <a class="js-scrollTo" href="#tricks"><i class="fas fa-arrow-to-bottom"></i></a>
         <a class="js-scrollTo" href="#header"><i class="fas fa-arrow-to-top"></i></a>
     </div>
-    <section class="text-center">
-        <div id="tricks">
+    <section class="text-center" class="container">
+        <div id="tricks" class="row">
             <p>Chargement des tricks <div class="loader"></div></p>
         </div>
     </section>
-    <a class="card text-white bg-primary mb-3" id="load_more_button"  href="#tricks">Charger plus</a>
-    {#  % for trick in tricks %}
-        <div>
-            {{ trick.name }} |
-            <a href="{{ path('app_trick_show', {id : trick.id}) }}" >Aller au trick</a> |
-            {{ trick.tag.name  }}
-        </div>
-    {% endfor %}#}
-
+    <a class="btn btn-block btn-primary mt-3" id="load_more_button">Charger plus</a>
 {% endblock %}
 
 {% block javascripts %}
