@@ -38,7 +38,7 @@ class TrickController extends AbstractController
      * @Route("/getTrick/{offset}", name="app_trick_all_show", methods="GET", options={"expose"=true})
      */
     public function getTricks(Request $request, Int $offset, TrickRepository $trickRepository) {
-        if (!$request->isXmlHttpRequest()) {
+        if ($request->isXmlHttpRequest()) {
             $tricks = $trickRepository->findTrickWithMainPictureByOffset($offset);
 
             //dd($tricks);
