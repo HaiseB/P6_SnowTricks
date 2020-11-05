@@ -19,6 +19,36 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
+    /**
+     * @return Trick[] Returns an array of Tricks objects
+     */
+    public function findTrickWithMainPictureByOffset($offset)
+    {
+        $tricks = $this->createQueryBuilder('c')
+            ->andWhere('c.isDeleted = :isDeleted')
+            ->andWhere('c.isOnline = :isOnline')
+            ->setParameter('isDeleted', false)
+            ->setParameter('isOnline', true)
+            ->orderBy('c.id', 'DESC')
+            ->setMaxResults(20)
+            ->setFirstResult($offset)
+            ->getQuery()
+            ->getResult()
+            ;
+
+        foreach ($tricks as $trick) {
+            $pictures = $trick->getPictures();
+
+            foreach ($pictures as $picture) {
+                if ($picture->getIsMain() === false || $picture->getIsDeleted() === true) {
+                    $trick->removePicture($picture);
+                }
+            }
+        }
+
+        return $tricks;
+    }
+
     // /**
     //  * @return Trick[] Returns an array of Trick objects
     //  */
