@@ -39,7 +39,7 @@ class VideoController extends AbstractController
      */
     public function new(EntityManagerInterface $em, Request $request, Trick $trick)
     {
-        $videoForm = $this->createForm(VideoFormType::class );
+        $videoForm = $this->createForm(VideoFormType::class);
 
         $videoForm->handleRequest($request);
 
@@ -51,7 +51,7 @@ class VideoController extends AbstractController
             $em->persist($video);
             $em->flush();
 
-            return $this->redirectToRoute('app_trick_modify', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('app_trick_modify', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render(
@@ -72,6 +72,6 @@ class VideoController extends AbstractController
         $em->persist($video);
         $em->flush();
 
-        return $this->redirectToRoute('app_trick_modify', ['id' => $video->getTrick()->getId()]);
+        return $this->redirectToRoute('app_trick_modify', ['slug' => $video->getTrick()->getSlug()]);
     }
 }

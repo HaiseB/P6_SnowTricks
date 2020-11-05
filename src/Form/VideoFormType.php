@@ -14,7 +14,7 @@ class VideoFormType extends AbstractType
     {
         $builder
             ->add('url', TextType::class, [
-                'label' => "Code de la vidéo youtube",
+                'label' => "Lien de la vidéo youtube",
             ])
         ;
     }

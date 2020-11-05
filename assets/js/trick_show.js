@@ -4,6 +4,7 @@ let Routes = require('./js_routes.json');
 Routing.setRoutingData(Routes);
 
 let trick_id = document.getElementById('comment').dataset.commentId;
+let trick_slug = window.location.pathname.split('/')[2];
 let comment_list = document.getElementById('comment-list');
 let loadMoreButton = document.getElementById('load_more_button');
 let numberOfComments = 0;
@@ -105,7 +106,7 @@ comment_form[0].addEventListener('submit', function (event)
     event.preventDefault()
     new Promise( function (resolve, reject)
     {
-        let url = Routing.generate('app_trick_show', {id : trick_id});
+        let url = Routing.generate('app_trick_show', {slug : trick_slug});
         let xhr = new XMLHttpRequest();
         let formData = new FormData(comment_form[0]);
 
