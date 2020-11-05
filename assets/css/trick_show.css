@@ -26,11 +26,10 @@
 }
 
 .trick-linked-picture-card {
-    height: 20%;
+    height: 260px;
+    width: auto;
+    min-width: 260px;
     background-color: #1a252f;
-}
-
-.trick-linked-picture {
-    width: 100%;
-    height: auto;
+    background-repeat: no-repeat;
+    background-position:center center;
 }

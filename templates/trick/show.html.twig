@@ -30,22 +30,20 @@
     </div>
 </div>
 
-<section id="media" class="media-show">
+<section id="media" class="media-show text-center">
     {% for picture in linkedPictures %}
-        <div class="col-12 col-md-4 shadow-lg p-3 mb-5 bg-white rounded trick-linked-picture-card">
-            <a href="{{ asset('pictures/tricksPictures/linked/'~picture.path~'') }}" class="html5lightbox"
+        <a href="{{ asset('pictures/tricksPictures/linked/'~picture.path~'') }}" class="html5lightbox shadow-lg bg-white rounded m-3 p-3"
             {% if picture.legend != '' %}
                 title="{{ picture.legend }}"
-            {% endif %}
-            >
-                <img src="{{ asset('pictures/tricksPictures/linked/'~picture.path~'') }}"
-                 alt="{{ picture.legend }}" class="trick-picture" height="250">
-            </a>
-        </div>
+            {% endif %}>
+            <div class="col-12 col-md-5 shadow-lg bg-white rounded trick-linked-picture-card"
+                style="background-image: url({{ asset('pictures/tricksPictures/linked/'~picture.path~'') }});">
+            </div>
+        </a>
         {% endfor %}
     {% for video in linkedvideos %}
-        <div class="col-12 col-md-4 shadow-lg p-3 mb-5 bg-white rounded text-center">
-            <iframe height="250" src="https://www.youtube.com/embed/{{ video.url }}"
+        <div class="col-12 col-md-4 m-3 p-3 rounded text-center">
+            <iframe class="rounded" height="235" src="https://www.youtube.com/embed/{{ video.url }}"
                     frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
             </iframe>
         </div>
