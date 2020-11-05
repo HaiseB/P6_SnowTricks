@@ -51,6 +51,10 @@
         </div>
     {% endfor %}
 </section>
+<div class="text-center mb-5">
+    <a class="btn btn-block btn-primary" id="show_media">Afficher média</a>
+    <a class="btn btn-block btn-primary" id="hide_media">Cacher média</a>
+</div>
 
 <section>
     <div class="text-left shadow-lg p-3 mb-5 bg-white rounded">
@@ -98,6 +102,7 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('trick_show') }}
+    {{ encore_entry_script_tags('trick_show_hide_media') }}
     <script type="text/javascript" src="{{ asset('html5lightbox/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ asset('html5lightbox/html5lightbox.js') }}"></script>
 {% endblock %}

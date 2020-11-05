@@ -5,28 +5,32 @@
 {% endblock %}
 
 {% block body %}
-    <div class="text-center">
+    <div class="text-center pt-4 pb-1 mb-3 shadow-lg bg-white rounded container-fluid">
         {% if app.user.picturePath == '' %}
             <img src="{{ asset('pictures/profilPictures/defaultProfilPicture.png') }}" width="150" height="150" class="rounded-circle">
         {% else %}
             <img src="{{ asset('pictures/profilPictures/'~app.user.picturePath~'') }}" width="150" height="150" class="rounded-circle">
         {% endif  %}
         <h2>Mon profil</h2>
-        <h3>{{ app.user.username }}</h3>
-        <h3>{{ app.user.email }}</h3>
+        <h4>{{ app.user.username }}</h4>
+        <h4>{{ app.user.email }}</h4>
+        <div class="text-center mb-5 rounded">
+            <a href="{{ path('app_trick_new') }}" class="btn btn-primary">Créer un nouveau trick</a>
+            <a href="{{ path('app_profil_modify') }}" class="btn btn-primary">Modifier mon profil</a>
+            <a href="{{ path('app_logout') }}" class="btn btn-primary">Me déconnecter</a>
+        </div>
     </div>
-    <hr>
-    <h2>Mes tricks {{ app.user.tricks | length }}</h2>
-    <ul>
+    <h4>Mes tricks <span class="badge badge-primary badge-pill">{{ app.user.tricks | length }}</span></h4>
+    <ul class="list-group">
     {% for trick in app.user.tricks %}
-        <li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
             <a href="{{ path('app_trick_show', {slug : trick.slug}) }}">{{ trick.name }}</a>
-            <span>{{ trick.comments | length }} commentaires</span>
+            {% if trick.createdAt |date("m/d/Y") != trick.updatedAt |date("m/d/Y") %}
+                <span>dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }}</span>
+            {% endif %}
+            <span>créé le {{ trick.createdAt |date("m/d/Y")  }}</span>
+            <span class="badge badge-primary badge-pill">{{ trick.comments | length }} commentaires</span>
         </li>
     {% endfor %}
     </ul>
-    <hr>
-    <a href="{{ path('app_trick_new') }}">Créer un nouveau trick</a>
-    <a href="{{ path('app_profil_modify') }}">Modifier mon profil</a>
-    <a href="{{ path('app_logout') }}">Me déconnecter</a>
 {% endblock %}
