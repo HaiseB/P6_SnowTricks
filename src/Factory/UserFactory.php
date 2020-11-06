@@ -23,8 +23,7 @@ final class UserFactory extends ModelFactory
     {
         $faker = \Faker\Factory::create("fr_FR");
 
-        //@TODO appeler la méthode de security
-        $password = 'toto';
+        $password =  $faker->password;
         $passwordEncoded = password_hash($password, PASSWORD_BCRYPT);
 
         return [

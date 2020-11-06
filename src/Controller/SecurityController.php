@@ -114,12 +114,11 @@ class SecurityController extends AbstractController
                 ->to(new Address($user->getEmail(), $user->getUsername()))
                 ->subject('Bienvenue sur Snowtricks!')
                 ->htmlTemplate('email/register.html.twig')
-                ->context([
-                    'user' => $user
-                ]);
+                ->context(['user' => $user]);
 
             $mailer->send($email);
-            //@TODO add flash message
+
+            $this->addFlash('success', "Un mail de validation viens d'être envoyé pour activer le compte");
 
             return $this->redirectToRoute('app_homepage');
         }
@@ -139,8 +138,9 @@ class SecurityController extends AbstractController
 
         $em->persist($user);
         $em->flush();
-      
-        //@TODO add flash message
+
+        $this->addFlash('success', "Le compte à bien été validé, il reste plus qu'a se connecter :)");
+
         return $this->redirectToRoute('app_login');
     }
 
@@ -172,14 +172,13 @@ class SecurityController extends AbstractController
                     ->to(new Address($user->getEmail(), $user->getUsername()))
                     ->subject('Demande de réinitialisation de mot de passe')
                     ->htmlTemplate('email/forgot_password.html.twig')
-                    ->context([
-                        'user' => $user
-                    ]);
+                    ->context(['user' => $user]);
 
                 $mailer->send($email);
             }
 
-            //@TODO add flash message
+            $this->addFlash('success', "Une demande de réinitialisation de mot de passe à été envoyé à ce mail <strong>(s'il existe)</strong>");
+
             return $this->redirectToRoute('app_login');
         }
 
@@ -193,10 +192,12 @@ class SecurityController extends AbstractController
     /**
      * @Route("/change_forgoten_password/{id}/{token}", name="app_change_forgoten_password")
      */
-    public function changeForgotenPassword(EntityManagerInterface $em, User $user, Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function changeForgotenPassword(EntityManagerInterface $em, UserRepository $userRepository, Request $request, UserPasswordEncoderInterface $passwordEncoder, int $id, string $token)
     {
-        if ($user->getAskedResetPassword() === true) {
-            $form = $this->createForm(UserNewPasswordFormType::class );
+        $user = $userRepository->findOneBy(['id' => $id, 'token' =>  $token, 'askedResetPassword' => 'true']);
+
+        if ($user) {
+            $form = $this->createForm(UserNewPasswordFormType::class);
 
             $form->handleRequest($request);
 
@@ -209,7 +210,8 @@ class SecurityController extends AbstractController
                 $em->persist($user);
                 $em->flush();
 
-                //@TODO add flash message
+                $this->addFlash('success', "Le changement de mot de passe à bien été enregistré");
+
                 return $this->redirectToRoute('app_login');
             }
 
@@ -221,7 +223,8 @@ class SecurityController extends AbstractController
             );
         }
 
-        //@TODO add flash message
+        $this->addFlash('danger', "Oups! il semble que ce lien n'est pas valide");
+
         return $this->redirectToRoute('app_login');
     }
 }

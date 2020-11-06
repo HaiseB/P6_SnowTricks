@@ -11,30 +11,66 @@
                 Pour l'instant il n'y a que toi qui peut le voir, dépêches-toi de le <strong>partager</strong></p>
         </div>
     {% endif %}
-    {% if app.user %}
-        {% if app.user.id == trick.user.id %}
-            <a href="{{ path('app_trick_modify', {id : trick.id}) }}" >Modifier mon trick</a>
+    <div class="text-center banner shadow-lg p-3 mb-5 bg-white rounded" style="background-image:
+        {% if mainPicture|length == 0 %}
+            url({{ asset('pictures/tricksPictures/mains/default.jpg') }});">
+        {% else %}
+            url({{ asset('pictures/tricksPictures/mains/'~mainPicture.0.path~'') }});">
         {% endif %}
-    {% endif %}
-    <h1 id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</h1>
+        {% if app.user %}
+            <div class="crud-buttons">
+                <span class="badge badge-pill badge-light">
+                    <a href="{{ path('app_trick_modify', {slug : trick.slug}) }}"><i class="fas fa-pen"></i></a>
+                    <span class="text-success">|</span>
+                    <a href="{{ path('app_trick_delete', {id : trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                </span>
+            </div>
+        {% endif %}
+        <h1 id="trick-name"><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
+    </div>
 </div>
 
-<section>
-    {% for video in trick.videos %}
-        <div>
-            {{ video.id }} | {{ video.url }}
-        </div>
-    {% endfor %}
-    {% for picture in trick.pictures %}
-        <div>
-            {{ picture.id }} | {{ picture.path }}
+<section id="media" class="media-show text-center">
+    {% for picture in linkedPictures %}
+        <a href="{{ asset('pictures/tricksPictures/linked/'~picture.path~'') }}" class="html5lightbox shadow-lg bg-white rounded m-3 p-3"
+            {% if picture.legend != '' %}
+                title="{{ picture.legend }}"
+            {% endif %}>
+            <div class="col-12 col-md-5 shadow-lg bg-white rounded trick-linked-picture-card"
+                style="background-image: url({{ asset('pictures/tricksPictures/linked/'~picture.path~'') }});">
+            </div>
+        </a>
+        {% endfor %}
+    {% for video in linkedvideos %}
+        <div class="col-12 col-md-4 m-3 p-3 rounded text-center">
+            <iframe class="rounded" height="235" src="https://www.youtube.com/embed/{{ video.url }}"
+                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+            </iframe>
         </div>
     {% endfor %}
 </section>
+<div class="text-center mb-5">
+    <a class="btn btn-block btn-primary" id="show_media">Afficher média</a>
+    <a class="btn btn-block btn-primary" id="hide_media">Cacher média</a>
+</div>
 
 <section>
-    <p>{{ trick.content | raw }}</p>
-    <p>créé par {{ trick.user.username }} | catégorie {{ trick.tag.name }} | créé le {{ trick.createdAt |date("m/d/Y")  }} | dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }}</p>
+    <div class="text-left shadow-lg p-3 mb-5 bg-white rounded">
+        <i class="fas fa-quote-left"></i>
+        <p>{{ trick.content | raw }}</p>
+    </div>
+    <div class="text-center">
+        {% if trick.user.picturePath != '' %}
+            <img src="{{ asset('pictures/profilPictures/'~trick.user.picturePath~'') }}" width="45" height="45" class="rounded-circle">
+        {% endif %}
+        <span class="badge badge-pill badge-primary">par {{ trick.user.username }}</span>
+        <span class="badge badge-pill badge-primary">catégorie {{ trick.tag.name }}</span>
+        <span class="badge badge-pill badge-primary">créé le {{ trick.createdAt |date("m/d/Y")  }}</span>
+        {% if trick.createdAt |date("m/d/Y") != trick.updatedAt |date("m/d/Y") %}
+            <span class="badge badge-pill badge-primary">dernière MàJ {{ trick.updatedAt |date("m/d/Y")  }}</span>
+        {% endif %}
+        <span class="badge badge-pill badge-primary">commentaires {{ trick.comments.count }}</span>
+    </div>
 </section>
 
 <hr>
@@ -64,4 +100,7 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('trick_show') }}
+    {{ encore_entry_script_tags('trick_show_hide_media') }}
+    <script type="text/javascript" src="{{ asset('html5lightbox/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('html5lightbox/html5lightbox.js') }}"></script>
 {% endblock %}

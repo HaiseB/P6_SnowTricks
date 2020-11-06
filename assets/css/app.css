@@ -1,7 +1,39 @@
-*,body{
-    padding : 0;
-    margin : 0;
+* {
+    margin: 0;
+}
+
+body{
+    height: 100%;
     font-family: 'Source Sans Pro', sans-serif;
+}
+
+.nav-item {
+    font-size : 1.2em;
+}
+
+.page-wrap {
+    min-height: 100%;
+}
+
+.page-wrap:after {
+    content: "";
+    display: block;
+    height: 142px;
+}
+
+footer{
+    background: #2B3E50;
+    text-align: center;
+    padding: 3% 15% 1% 15%;
+}
+
+.btn-footer{
+    font-size : 3em;
+}
+
+.signature{
+    color: #F2E9CE;
+    opacity: 0.5;
 }
 
 .loader {
@@ -16,7 +48,7 @@
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    100% { transform: rotate(360deg);
 }
 
 .js-scrollTo{

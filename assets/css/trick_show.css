@@ -1,0 +1,35 @@
+.banner {
+    margin-top : 3%;
+    min-height: 400px;
+    background-repeat: no-repeat;
+    background-position:center center;
+}
+
+.crud-buttons {
+    font-size : 2em;
+    margin-left: 72%;
+}
+
+#trick-name {
+    margin-top: 120px;
+    color: whitesmoke;
+}
+
+.media-show {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: stretch;
+    margin-bottom : 3%;
+}
+
+.trick-linked-picture-card {
+    height: 260px;
+    width: auto;
+    min-width: 260px;
+    background-color: #1a252f;
+    background-repeat: no-repeat;
+    background-position:center center;
+}
