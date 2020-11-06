@@ -36,17 +36,13 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/getTrick/{offset}", name="app_trick_all_show", methods="GET", options={"expose"=true})
+     * @Route("/getTricks/{offset}", name="app_trick_all_show", methods="GET", options={"expose"=true})
      */
     public function getTricks(Request $request, Int $offset, TrickRepository $trickRepository) {
         if ($request->isXmlHttpRequest()) {
             $tricks = $trickRepository->findTricksWithMainPictureByOffset($offset);
 
-            dd($tricks);
-
-            return $this->json($tricks, 200, [], [
-                ObjectNormalizer::ATTRIBUTES => ['name', 'pictures' => ['collection'], 'tag' => ['name'], 'createdAt']
-            ]);
+            return $this->json($tricks, 200);
         }
 
         return $this->json([
