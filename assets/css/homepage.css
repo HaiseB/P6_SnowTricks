@@ -24,7 +24,7 @@
     background-color: #F3F3F3;
     border-radius: 50%;
     box-shadow: 0 6px 10px 0 #0000001a, 0 3px 5px -1px #0003;
-    position: relative;
+    position: fixed;
     bottom: 30px;
     right: 30px;
     text-decoration: none;
