@@ -144,4 +144,20 @@ class Picture
 
         return $this;
     }
+
+    /**
+     * Create a default Main picture for the trick
+     *
+     * @param Trick $trick
+     * @return $this
+     */
+    public function createDefaultMainPicture(Trick $trick): self
+    {
+        $this->setPath('defaultMain.jpg');
+        $this->setIsMain(true);
+        $this->setLegend('Vue sur une montage enneigée');
+        $this->setTrick($trick);
+
+        return $this;
+    }
 }

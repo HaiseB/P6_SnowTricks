@@ -1,13 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Pour les passionnés de snowboard, un réseau social collaboratif pour faire connaître ce sport auprès du grand public et aider à l'apprentissage des figures</h2>
-    <hr>
-    {% for trick in tricks %}
-        <div>
-            {{ trick.name }} |
-            <a href="{{ path('app_trick_show', {slug : trick.slug}) }}" >Aller au trick</a> |
-            {{ trick.tag.name  }}
+    <div id="header" class="text-center">
+        <h1>Snowtricks</h1>
+        <h3>Pour les passionnés de snowboard, un réseau social collaboratif pour faire connaître ce sport auprès du grand public et aider à l'apprentissage des figures</h3>
+        <a class="js-scrollTo" href="#tricks"><i class="fas fa-arrow-to-bottom"></i></a>
+        <a class="js-scrollTo" href="#header"><i class="fas fa-arrow-to-top"></i></a>
+    </div>
+    <section class="text-center" class="container">
+        <div id="tricks" class="row">
+            <p>Chargement des tricks <div class="loader"></div></p>
         </div>
-    {% endfor %}
+    </section>
+    <a class="btn btn-block btn-primary mt-3" id="load_more_button">Charger plus</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('trick_homepage') }}
 {% endblock %}

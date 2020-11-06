@@ -48,5 +48,33 @@ footer{
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    100% { transform: rotate(360deg);
+}
+
+.js-scrollTo{
+    display: block;
+    width: 55px;
+    height: 55px;
+    line-height: 55px;
+    text-align: center;
+    color: #2C3E50;
+    font-size: 30px;
+    background-color: #F3F3F3;
+    border-radius: 50%;
+    box-shadow: 0 6px 10px 0 #0000001a, 0 3px 5px -1px #0003;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+.js-scrollTo:hover{
+    text-decoration: none;
+    color: #2C3E50;
+    transform: scale(1.2);
+}
+
+.homepage-trick-picture {
+    height: 250px;
 }

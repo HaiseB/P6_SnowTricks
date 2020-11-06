@@ -36,6 +36,26 @@ class TrickController extends AbstractController
     }
 
     /**
+     * @Route("/getTrick/{offset}", name="app_trick_all_show", methods="GET", options={"expose"=true})
+     */
+    public function getTricks(Request $request, Int $offset, TrickRepository $trickRepository) {
+        if ($request->isXmlHttpRequest()) {
+            $tricks = $trickRepository->findTricksWithMainPictureByOffset($offset);
+
+            dd($tricks);
+
+            return $this->json($tricks, 200, [], [
+                ObjectNormalizer::ATTRIBUTES => ['name', 'pictures' => ['collection'], 'tag' => ['name'], 'createdAt']
+            ]);
+        }
+
+        return $this->json([
+            'type' => 'error',
+            'message' => 'Ajax required'
+        ]);
+    }
+
+    /**
      * @Route("/trick/new", name="app_trick_new")
      */
     public function new(EntityManagerInterface $em, Request $request, UploadHelper $uploadHelper)
@@ -55,10 +75,10 @@ class TrickController extends AbstractController
             $em->flush();
 
             /** @var UploadedFile $picture */
+            $picture = new Picture();
             $pictureFile = $trickForm->get('path')->getData();
 
             if ($pictureFile) {
-                $picture = new Picture();
                 $newFilename = $uploadHelper->uploadTrickMainPicture($pictureFile);
 
                 $picture->setPath($newFilename);
@@ -68,7 +88,8 @@ class TrickController extends AbstractController
 
                 $em->persist($picture);
                 $em->flush();
-
+            } else {
+                $picture->createDefaultMainPicture($trick);
             }
 
             $this->addFlash('success', "Le trick à bien été créé");
