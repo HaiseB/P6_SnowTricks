@@ -58,11 +58,15 @@ function printTricks()
 
             for (let index = 0; index < response.length; index++)
             {
-                insertToDom(response[index])
+                if (index % 5 === 0) {
+                    row = createRow()
+                }
+                console.log(response[index])
+                insertToDom(response[index], row)
             }
             numberOfTricks = numberOfTricks+response.length;
 
-            if (response.length < 1 ){
+            if (response.length < 15 ){
                 loadMoreButton.style.display = "none";
             } else {
                 loadMoreButton.style.display = "block";
@@ -73,32 +77,47 @@ function printTricks()
         })
 }
 
-function insertToDom(data)
+function insertToDom(data, row)
 {
     let div = createElement('div');
     let a = createElement('a');
     let span = createElement('span');
-    let pSpan = document.createTextNode(data.tag.name);
-    let p = createElement('p');
+    let pSpan = document.createTextNode(data.tag);
+    let h2 = createElement('h2');
     let pTextNode = document.createTextNode(data.name);
 
     div.classList.add("card");
     div.classList.add("m-3");
     div.classList.add("p-1");
     div.classList.add("col-md");
+
     a.classList.add("homepage-trick-picture");
-    a.href = Routing.generate('app_trick_show', {id : data.name})
-    a.style.background = "#f3f3f3 url('../pictures/tricksPictures/main/"+data.picture+"') no-repeat right top";
+    a.classList.add("p-5");
+    a.classList.add("btn");
+    a.classList.add("btn-primary");
+    a.href = Routing.generate('app_trick_show', {slug : data.slug})
+    a.style.background = "#f3f3f3 url('pictures/tricksPictures/mains/"+data.path+"') no-repeat center center";
 
     span.classList.add("badge");
     span.classList.add("badge-primary");
 
     span.appendChild(pSpan);
-    p.appendChild(pTextNode);
-    tricks_list.appendChild(div);
+    h2.appendChild(pTextNode);
+    row.appendChild(div);
     div.appendChild(a);
-    a.appendChild(p);
+    a.appendChild(h2);
     a.appendChild(span);
+}
+
+function createRow(data)
+{
+    let row = createElement('div')
+
+    row.classList.add("row");
+
+    tricks_list.appendChild(row);
+
+    return row;
 }
 
 function createElement(name)
