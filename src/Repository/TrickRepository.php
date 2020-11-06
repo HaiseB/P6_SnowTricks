@@ -22,31 +22,26 @@ class TrickRepository extends ServiceEntityRepository
     /**
      * @return Trick[] Returns an array of Tricks objects
      */
-    public function findTrickWithMainPictureByOffset($offset)
+    public function findTricksWithMainPictureByOffset($offset)
     {
-        $tricks = $this->createQueryBuilder('c')
+        return $this->createQueryBuilder('c')
+            ->select('c.name', 'c.slug', 't.name AS tag', 'p.path')
+            ->join('c.pictures', 'p')
+            ->join('c.tag', 't')
             ->andWhere('c.isDeleted = :isDeleted')
+            ->andWhere('p.isDeleted = :pictureIsDeleted')
             ->andWhere('c.isOnline = :isOnline')
+            ->andWhere('p.isMain = :isMain')
             ->setParameter('isDeleted', false)
+            ->setParameter('pictureIsDeleted', false)
             ->setParameter('isOnline', true)
+            ->setParameter('isMain', true)
             ->orderBy('c.id', 'DESC')
-            ->setMaxResults(1)
+            ->setMaxResults(15)
             ->setFirstResult($offset)
             ->getQuery()
             ->getResult()
             ;
-
-        foreach ($tricks as $trick) {
-            $pictures = $trick->getPictures();
-
-            foreach ($pictures as $picture) {
-                if ($picture->getIsMain() === false || $picture->getIsDeleted() === true) {
-                    $trick->removePicture($picture);
-                }
-            }
-        }
-
-        return $tricks;
     }
 
     // /**

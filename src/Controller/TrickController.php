@@ -39,12 +39,12 @@ class TrickController extends AbstractController
      */
     public function getTricks(Request $request, Int $offset, TrickRepository $trickRepository) {
         if ($request->isXmlHttpRequest()) {
-            $tricks = $trickRepository->findTrickWithMainPictureByOffset($offset);
+            $tricks = $trickRepository->findTricksWithMainPictureByOffset($offset);
 
-            //dd($tricks);
+            dd($tricks);
 
             return $this->json($tricks, 200, [], [
-                ObjectNormalizer::ATTRIBUTES => ['name', 'pictures' => ['elements' => ['path']], 'tag' => ['name'], 'createdAt']
+                ObjectNormalizer::ATTRIBUTES => ['name', 'pictures' => ['collection'], 'tag' => ['name'], 'createdAt']
             ]);
         }
 
@@ -74,10 +74,10 @@ class TrickController extends AbstractController
             $em->flush();
 
             /** @var UploadedFile $picture */
+            $picture = new Picture();
             $pictureFile = $trickForm->get('path')->getData();
 
             if ($pictureFile) {
-                $picture = new Picture();
                 $newFilename = $uploadHelper->uploadTrickMainPicture($pictureFile);
 
                 $picture->setPath($newFilename);
@@ -87,6 +87,8 @@ class TrickController extends AbstractController
 
                 $em->persist($picture);
                 $em->flush();
+            } else {
+                $picture->createDefaultMainPicture($trick);
             }
 
             return $this->redirectToRoute('app_trick_show', ['id' => $trick->getId()]);
