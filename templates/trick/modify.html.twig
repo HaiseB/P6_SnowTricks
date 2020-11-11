@@ -10,7 +10,6 @@
                 Pour l'instant, il n'y a que toi qui peut le voir, dépêches-toi de le <strong>partager</strong></p>
         </div>
     {% endif %}
-
     <ol class="breadcrumb" id="breadcrumb-trick-modify">
         <li class="breadcrumb-item active"><a href="{{ path('app_trick_show', {slug : trick.slug}) }}">{{ trick.name }}</a></li>
         <li class="breadcrumb-item active">Modifier</li>
@@ -83,9 +82,10 @@
         <button type="submit" class="btn btn-success btn-block">Enregistrer</button>
         {{ form_end(trickForm) }}
     </fieldset>
-    {% if app.user.id == trick.user.id %}
-        <a href="{{ path('app_trick_delete', {id : trick.id}) }}" >Supprimer le trick</a>
-    {% endif %}
+    <br>
+    <div class="d-flex flex-row-reverse">
+        <a href="{{ path('app_trick_delete', {id : trick.id}) }}" class="btn btn-danger p-2 delete">Supprimer</a>
+    </div>
     <hr>
     <section class="text-center">
     <h3>Espace commentaire</h3>

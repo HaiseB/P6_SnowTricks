@@ -8,27 +8,20 @@ let numberOfTricks = 0;
 let loadMoreButton = document.getElementById('load_more_button');
 let btnScrollToTricks = document.getElementById('scroll-to-tricks');
 let btnScrollToHeader = document.getElementById('scroll-to-header');
-const url = window.location.href;
 
 loadMoreButton.style.display = "none";
 
-if (url.includes('#tricks')) {
-    btnScrollToTricks.style.display = "none";
-} else {
-    btnScrollToHeader.style.display = "none";
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        btnScrollToHeader.style.display = "block";
+        btnScrollToTricks.style.display = "none";
+    } else {
+        btnScrollToTricks.style.display = "block";
+        btnScrollToHeader.style.display = "none";
+    }
 }
-
-btnScrollToTricks.addEventListener('click', function (event)
-{
-    btnScrollToHeader.style.display = "block";
-    btnScrollToTricks.style.display = "none";
-});
-
-btnScrollToHeader.addEventListener('click', function (event)
-{
-    btnScrollToTricks.style.display = "block";
-    btnScrollToHeader.style.display = "none";
-});
 
 $(document).ready(function() {
     $('.js-scrollTo').on('click', function() {

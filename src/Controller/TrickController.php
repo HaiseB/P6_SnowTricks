@@ -107,6 +107,10 @@ class TrickController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        if ($trick->getIsDeleted() === true) {
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $form = $this->createForm(TrickFormType::class, $trick);
         $form->remove('path');
         $form->remove('legend');
@@ -154,6 +158,10 @@ class TrickController extends AbstractController
      */
     public function show(EntityManagerInterface $em, Request $request, Trick $trick, PictureRepository $pictureRepository, VideoRepository $videoRepository)
     {
+        if ($trick->getIsDeleted() === true) {
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $form = $this->createForm(CommentFormType::class );
 
         $form->handleRequest($request);
