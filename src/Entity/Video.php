@@ -115,7 +115,7 @@ class Video
     public function setEmbedUrl(string $formUrl): self
     {
         $reworkedUrl = explode("=", $formUrl);
-        $reworkedUrl = explode("&", $reworkedUrl[0]);
+        $reworkedUrl = explode("&", $reworkedUrl[1]);
 
         $this->url = $reworkedUrl[0];
 
