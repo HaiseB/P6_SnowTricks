@@ -28,7 +28,7 @@ class CommentRepository extends ServiceEntityRepository
             ->andWhere('c.trick = :val')
             ->setParameter('val', $trick)
             ->orderBy('c.id', 'DESC')
-            ->setMaxResults(20)
+            ->setMaxResults(10)
             ->setFirstResult($offset)
             ->getQuery()
             ->getResult()
