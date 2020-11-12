@@ -146,7 +146,7 @@ class Picture
     }
 
     /**
-     * Create a default Main picture for the trick
+     * Create a default Main picture for the trick (as asked by the costumer)
      *
      * @param Trick $trick
      * @return $this

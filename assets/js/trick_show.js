@@ -57,7 +57,7 @@ function printComments()
             }
             numberOfComments = numberOfComments+response.length;
 
-            if (response.length < 20 ){
+            if (response.length < 10 ){
                 loadMoreButton.style.display = "none";
             } else {
                 loadMoreButton.style.display = "block";
