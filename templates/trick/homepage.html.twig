@@ -1,18 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div id="header" class="text-center">
-        <h1>Snowtricks</h1>
-        <h3>Pour les passionnés de snowboard, un réseau social collaboratif pour faire connaître ce sport auprès du grand public et aider à l'apprentissage des figures</h3>
-        <a class="js-scrollTo" href="#tricks"><i class="fas fa-arrow-to-bottom"></i></a>
-        <a class="js-scrollTo" href="#header"><i class="fas fa-arrow-to-top"></i></a>
+    <div id="header" class="text-center shadow-lg p-3 mb-5"
+         style="background-image:url({{ asset('background/main.jpg') }});">
+        <h1 class="col-12">Snowtricks</h1>
+        <h3 class="col-12">Pour les passionnés et les novices en snowboard, un réseau social collaboratif découvrir ce sport et aider à l'apprentissage des figures</h3>
     </div>
-    <section class="text-center" class="container">
-        <div id="tricks" class="row">
-            <p>Chargement des tricks <div class="loader"></div></p>
-        </div>
+    <section id="tricks" class="text-center container">
+        <h2>Chargement des tricks <div class="loader"></div></h2>
     </section>
     <a class="btn btn-block btn-primary mt-3" id="load_more_button">Charger plus</a>
+    <a id="scroll-to-tricks" class="js-scrollTo" href="#tricks"><i class="fas fa-arrow-alt-circle-down"></i></a>
+    <a id="scroll-to-header" class="js-scrollTo" href="#header"><i class="fas fa-arrow-alt-circle-up"></i></a>
 {% endblock %}
 
 {% block javascripts %}

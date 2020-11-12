@@ -110,4 +110,15 @@ class Video
 
         return $this;
     }
+
+
+    public function setEmbedUrl(string $formUrl): self
+    {
+        $reworkedUrl = explode("=", $formUrl);
+        $reworkedUrl = explode("&", $reworkedUrl[1]);
+
+        $this->url = $reworkedUrl[0];
+
+        return $this;
+    }
 }

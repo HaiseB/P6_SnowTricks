@@ -46,6 +46,9 @@ class VideoController extends AbstractController
         if ($videoForm->isSubmitted() && $videoForm->isValid()) {
             /** @var Video $video */
             $video = $videoForm->getData();
+            $formUrl = $videoForm->get('url')->getData();
+
+            $video->setEmbedUrl($formUrl);
             $video->setTrick($trick);
 
             $em->persist($video);

@@ -39,6 +39,8 @@ class PictureController extends AbstractController
      */
     public function newMain(EntityManagerInterface $em, Request $request, PictureRepository $pictureRepository, Trick $trick, UploadHelper $uploadHelper)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $pictureForm = $this->createForm(PictureFormType::class);
 
         $mainPicture = $pictureRepository->findMainPictureByTrick($trick);
@@ -81,6 +83,8 @@ class PictureController extends AbstractController
      */
     public function newLinked(EntityManagerInterface $em, Request $request, Trick $trick, UploadHelper $uploadHelper)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $pictureForm = $this->createForm(PictureFormType::class);
 
         $pictureForm->handleRequest($request);
@@ -116,6 +120,8 @@ class PictureController extends AbstractController
      */
     public function deleteMain(EntityManagerInterface $em, PictureRepository $pictureRepository, Trick $trick)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $mainPicture = $pictureRepository->findMainPictureByTrick($trick);
 
         $pictureRepository->delete($mainPicture[0], $em);
@@ -128,6 +134,8 @@ class PictureController extends AbstractController
      */
     public function deleteLink(Request $request, EntityManagerInterface $em, PictureRepository $pictureRepository, Picture $picture)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $pictureRepository->delete($picture, $em);
 
         return $this->redirectToRoute('app_trick_modify', ['slug' => $picture->getTrick()->getSlug()]);

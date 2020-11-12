@@ -39,7 +39,6 @@ function printLinkedVideos()
             generateVideoTable()
             for (let index = 0; index < response.length; index++)
             {
-                console.log(response[index])
                 insertLinkedVideoToDom(response[index])
             }
             let delete_linked_videos_button = document.getElementsByClassName('linked-picture');
@@ -98,9 +97,9 @@ function insertLinkedPictureToDom(data)
 
     a.href = Routing.generate('app_trick_delete_linked_picture', {id : data.id})
     a.textContent = 'supprimer'
+    a.classList.add("delete")
 
     img.src = '../../pictures/tricksPictures/linked/'+data.path;
-    img.width = 100;
     img.height = 100;
 
     picture_list.firstChild.lastChild.appendChild(tr);
@@ -128,6 +127,7 @@ function insertLinkedVideoToDom(data)
 
     a.href = Routing.generate('app_trick_delete_linked_video', {id : data.id})
     a.textContent = 'supprimer'
+    a.classList.add("delete")
 
     iframe.src = 'https://www.youtube.com/embed/'+data.url;
     iframe.width = 450;

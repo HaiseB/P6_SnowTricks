@@ -22,7 +22,11 @@
         </div>
 
         <div class="form-group">
-            {{ form_row(trickForm.path) }}
+            {{ form_row(trickForm.path, {
+                attr: {
+                    'placeholder': "Ajouter une image principale"
+                }
+            }) }}
         </div>
 
         <div class="form-group">
