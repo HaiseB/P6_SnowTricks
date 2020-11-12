@@ -15,7 +15,11 @@
     </div>
 
     <div class="form-group">
-        {{ form_row(pictureForm.path) }}
+        {{ form_row(pictureForm.path, {
+            attr: {
+                'placeholder': "Ajouter une image"
+            }
+        }) }}
     </div>
 
     <div class="form-group">

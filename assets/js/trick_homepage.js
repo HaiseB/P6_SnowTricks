@@ -14,7 +14,7 @@ loadMoreButton.style.display = "none";
 window.onscroll = function() {scrollFunction()};
 
 function scrollFunction() {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
         btnScrollToHeader.style.display = "block";
         btnScrollToTricks.style.display = "none";
     } else {
@@ -72,7 +72,7 @@ function printTricks()
 
             for (let index = 0; index < response.length; index++)
             {
-                if (index % 5 === 0) {
+                if (index % 3 === 0) {
                     row = createRow()
                 }
                 insertToDom(response[index], row)

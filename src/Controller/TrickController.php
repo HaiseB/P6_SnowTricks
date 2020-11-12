@@ -24,15 +24,9 @@ class TrickController extends AbstractController
     /**
      * @Route("/", name="app_homepage")
      */
-    public function homepage(TrickRepository $trickRepository)
+    public function homepage()
     {
-        $tricks = $trickRepository->findAll();
-
-        return $this->render(
-            'trick/homepage.html.twig', [
-            'tricks' => $tricks
-            ]
-        );
+        return $this->render('trick/homepage.html.twig');
     }
 
     /**
@@ -162,6 +156,10 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
+        if ($trick->getIsOnline() === false) {
+            $this->denyAccessUnlessGranted('ROLE_USER');
+        }
+
         $form = $this->createForm(CommentFormType::class );
 
         $form->handleRequest($request);
@@ -171,6 +169,7 @@ class TrickController extends AbstractController
         $linkedVideos = $videoRepository->findVideosByTrick($trick);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->denyAccessUnlessGranted('ROLE_USER');
             if ($request->isXmlHttpRequest()) {
                 /** @var Comment $comment */
                 $comment = $form->getData();

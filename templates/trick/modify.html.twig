@@ -21,8 +21,10 @@
         </div>
     {% else %}
         <div class="text-center banner" style="background-image: url({{ asset('pictures/tricksPictures/mains/'~mainPicture.0.path~'') }});">
-            <a href="{{ path('app_trick_add_main_picture', {id : trick.id}) }}">Modifier</a>
-            <a href="{{ path('app_trick_delete_main_picture', {id : trick.id}) }}">Supprimer</a>
+            <div class="d-flex flex-row-reverse pt-2 pr-3">
+                <a href="{{ path('app_trick_delete_main_picture', {id : trick.id}) }}" class="btn btn-danger m-2 delete"><i class="fas fa-trash-alt"></i></a>
+                <a href="{{ path('app_trick_add_main_picture', {id : trick.id}) }}" class="btn btn-success m-2"><i class="fas fa-pen"></i></a>
+            </div>
             <h1 id="trick-name"><span id="comment" data-comment-id="{{ trick.id }}">{{ trick.name }}</span></h1>
         </div>
         {% if mainPicture.0.legend|length > 0 %}
@@ -84,7 +86,7 @@
     </fieldset>
     <br>
     <div class="d-flex flex-row-reverse">
-        <a href="{{ path('app_trick_delete', {id : trick.id}) }}" class="btn btn-danger p-2 delete">Supprimer</a>
+        <a href="{{ path('app_trick_delete', {id : trick.id}) }}" class="btn btn-danger p-2 delete">Supprimer le Trick</a>
     </div>
     <hr>
     <section class="text-center">
