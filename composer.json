@@ -49,6 +49,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "squizlabs/php_codesniffer": "3.*",
         "symfony/browser-kit": "^5.1",
         "symfony/css-selector": "^5.1",
         "symfony/debug-bundle": "^5.1",
@@ -59,8 +60,7 @@
         "symfony/twig-bundle": "^5.1",
         "symfony/var-dumper": "^5.1",
         "symfony/web-profiler-bundle": "^5.1",
-        "zenstruck/foundry": "^1.1",
-        "squizlabs/php_codesniffer": "3.*"
+        "zenstruck/foundry": "^1.1"
     },
     "config": {
         "optimize-autoloader": true,

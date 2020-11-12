@@ -111,7 +111,12 @@ class Video
         return $this;
     }
 
-
+    /**
+     * This function return the youtube code of the url passed that we work with in views
+     *
+     * @param string $formUrl
+     * @return $this
+     */
     public function setEmbedUrl(string $formUrl): self
     {
         $reworkedUrl = explode("=", $formUrl);
