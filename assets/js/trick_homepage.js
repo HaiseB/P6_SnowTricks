@@ -72,7 +72,7 @@ function printTricks()
 
             for (let index = 0; index < response.length; index++)
             {
-                if (index % 3 === 0) {
+                if (index % 2 === 0) {
                     row = createRow()
                 }
                 insertToDom(response[index], row)
