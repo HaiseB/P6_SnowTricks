@@ -4,7 +4,6 @@ Projet 6 of the "parcours développeur d'application PHP/Symfony" by Openclassro
 This project consist of a collaborative site for snowboard fan.
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/0562845500cb95ae0528/maintainability)](https://codeclimate.com/github/HaiseB/P6_SnowTricks/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/0562845500cb95ae0528/test_coverage)](https://codeclimate.com/github/HaiseB/P6_SnowTricks/test_coverage)
 
 ## Table of Contents
 1. [Pre required](#Pre-required)
@@ -20,6 +19,7 @@ You will need to install those on your server
 - *Apache* (>= 2.4.35)
 - *MySQL* (>= 5.7.23)
 - *Composer* (>= 1.10.1)
+(In development mode)
 - *Node* (>= 12.18.4)
 - *Npm* (>= 6.14.6)
 
@@ -42,8 +42,12 @@ _Go back to the console and do_
 
 - ``php bin/console doctrine:migrations:migrate``
 
-- (Optional to get fake data)
+(Optional to get fake data)
 - ``php bin/console doctrine:fixtures:load``
+
+(Optional to get release ready data)
+- ``php releaseBackup\backup.php``
+> If this one didn't worked you will have to manually restore the backup (the location : `releaseBackup/snowtricks.sql`)
 
 ## How to use
 
