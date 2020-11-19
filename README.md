@@ -19,6 +19,7 @@ You will need to install those on your server
 - *Apache* (>= 2.4.35)
 - *MySQL* (>= 5.7.23)
 - *Composer* (>= 1.10.1)
+
 (In development mode)
 - *Node* (>= 12.18.4)
 - *Npm* (>= 6.14.6)
@@ -30,6 +31,8 @@ You will need to install those on your server
 _Go with a console to the repository and do thoses commands_
 - ``composer install``
 - ``composer update``
+
+(In development mode)
 - ``npm install``
 
 ## Settings
