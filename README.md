@@ -49,7 +49,7 @@ _Go back to the console and do_
 - ``php bin/console doctrine:fixtures:load``
 
 (Optional to get release ready data)
-- ``php releaseBackup\backup.php``
+- ``php releaseBackup/backup.php``
 > If this one didn't worked you will have to manually restore the backup (the location : `releaseBackup/snowtricks.sql`)
 
 ## How to use
