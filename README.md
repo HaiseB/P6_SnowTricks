@@ -55,7 +55,7 @@ _Run thoses commands_
 - ``php -S 127.0.0.1:8000 -t public``
 - ``symfony serve -d``
 
-- To compile asset
+- To compile assets
 - ``npm run watch``
 
 ## Build with
