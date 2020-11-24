@@ -25,9 +25,10 @@ You will need to install those on your server
 ## Installation
 
 > Make sure the `public` repository, is at the root of your server, you can also create a virtual host that redirect the visitors to the `public` directory.
-- git clone https://github.com/HaiseB/P6_SnowTricks.git
 
-_Go with a console to the repository and do thoses commands_
+_Run thoses commands_
+
+- ``git clone https://github.com/HaiseB/P6_SnowTricks.git``
 - ``composer install``
 - ``npm install``
 
