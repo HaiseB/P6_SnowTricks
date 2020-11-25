@@ -8,6 +8,7 @@ let numberOfTricks = 0;
 let loadMoreButton = document.getElementById('load_more_button');
 let btnScrollToTricks = document.getElementById('scroll-to-tricks');
 let btnScrollToHeader = document.getElementById('scroll-to-header');
+let myProfilLink = document.getElementById('myProfilLink');
 
 loadMoreButton.style.display = "none";
 
@@ -120,6 +121,41 @@ function insertToDom(data, row)
     div.appendChild(a);
     a.appendChild(h2);
     a.appendChild(span);
+
+    //If the user is logged print link
+    if (myProfilLink != null) {
+        let divUserAction = createElement('div');
+        let aDelete = createElement('a');
+        let aModify = createElement('a');
+        let iDelete = createElement('i');
+        let iModify = createElement('i');
+
+        divUserAction.classList.add("d-flex");
+        divUserAction.classList.add("flex-row-reverse");
+
+        aDelete.classList.add("btn");
+        aDelete.classList.add("btn-danger");
+        aDelete.classList.add("m-2");
+        aDelete.classList.add("delete");
+        iDelete.classList.add("fas");
+        iDelete.classList.add("fa-trash-alt");
+
+        aDelete.href = Routing.generate('app_trick_delete', {id : data.id})
+
+        aModify.classList.add("btn");
+        aModify.classList.add("btn-success");
+        aModify.classList.add("m-2");
+        iModify.classList.add("fas");
+        iModify.classList.add("fa-pen");
+
+        aModify.href = Routing.generate('app_trick_modify', {slug : data.slug})
+
+        a.appendChild(divUserAction);
+        divUserAction.appendChild(aDelete);
+        divUserAction.appendChild(aModify);
+        aDelete.appendChild(iDelete);
+        aModify.appendChild(iModify);
+    }
 }
 
 function createRow(data)

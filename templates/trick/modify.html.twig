@@ -85,7 +85,7 @@
         {{ form_end(trickForm) }}
     </fieldset>
     <br>
-    <div class="d-flex flex-row-reverse">
+    <div class="d-flex flex-row-reverse" id="delete_button">
         <a href="{{ path('app_trick_delete', {id : trick.id}) }}" class="btn btn-danger p-2 delete">Supprimer le Trick</a>
     </div>
     <hr>

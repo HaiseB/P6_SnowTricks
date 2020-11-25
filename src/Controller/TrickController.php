@@ -95,7 +95,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{slug}/modify", name="app_trick_modify")
+     * @Route("/trick/{slug}/modify", name="app_trick_modify", methods={"GET"}, options={"expose"=true})
      */
     public function modify(EntityManagerInterface $em, Request $request, Trick $trick, PictureRepository $pictureRepository)
     {
@@ -133,7 +133,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}/delete", name="app_trick_delete")
+     * @Route("/trick/{id}/delete", name="app_trick_delete", methods={"GET"}, options={"expose"=true})
      */
     public function delete(EntityManagerInterface $em, Trick $trick)
     {

@@ -25,7 +25,7 @@ class TrickRepository extends ServiceEntityRepository
     public function findTricksWithMainPictureByOffset($offset)
     {
         return $this->createQueryBuilder('c')
-            ->select('c.name', 'c.slug', 't.name AS tag', 'p.path')
+            ->select('c.id', 'c.name', 'c.slug', 't.name AS tag', 'p.path')
             ->join('c.pictures', 'p')
             ->join('c.tag', 't')
             ->andWhere('c.isDeleted = :isDeleted')
