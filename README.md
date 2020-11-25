@@ -39,14 +39,16 @@ _Run thoses commands_
 - Create a empty database on mysql
 - ``php bin/console doctrine:database:create``
 
-- ``php bin/console doctrine:migrations:migrate``
-
 (Optional to get fake data)
+- ``php bin/console doctrine:migrations:migrate``
 - ``php bin/console doctrine:fixtures:load``
 
 (Optional to get release ready data)
 - ``php releaseBackup/backup.php``
 > If this one didn't worked you will have to manually restore the backup (the location : `releaseBackup/snowtricks.sql`)
+
+(Else run this, /!\ but the database will be empty)
+- ``php bin/console doctrine:migrations:migrate``
 
 ## How to use
 
@@ -57,6 +59,11 @@ _Run thoses commands_
 
 - To compile assets
 - ``npm run watch``
+
+`* If you choose to get the release ready data`
+You can sign in with
+- username : Demo
+- password : demodemo 
 
 ## Build with
 - [Symfony 5](https://symfony.com/) - PHP framework
