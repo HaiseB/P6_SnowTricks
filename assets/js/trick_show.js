@@ -72,7 +72,7 @@ function insertToDom(data)
 {
     let $span_element = createElement('span');
     let $strong_element = createElement('strong');
-    let textNode = document.createTextNode(' ' + data.user.username + ' - ' + data.createdAt);
+    let textNode = document.createTextNode(' ' + data.user.username + ' - ' + reworkDatetime(data.createdAt));
     //profil picture
     let img = getProfilPicture(data);
 
@@ -157,4 +157,9 @@ function getProfilPicture(data)
     img.classList.add("rounded-circle");
 
     return img
+}
+
+function reworkDatetime(date)
+{
+    return "Le "+date.substring(8, 10)+" / "+date.substring(5, 7)+" / "+date.substring(0, 4)
 }

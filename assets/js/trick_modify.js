@@ -107,7 +107,7 @@ function insertLinkedPictureToDom(data)
     tr.appendChild(th);
     td.textContent = data.legend
     tr.appendChild(td);
-    td2.textContent = data.createdAt
+    td2.textContent = reworkDatetime(data.createdAt)
     tr.appendChild(td2);
     td3.appendChild(a)
     tr.appendChild(td3);
@@ -136,7 +136,7 @@ function insertLinkedVideoToDom(data)
     video_list.firstChild.lastChild.appendChild(tr);
     th.appendChild(iframe)
     tr.appendChild(th);
-    td.textContent = data.createdAt
+    td.textContent = reworkDatetime(data.createdAt)
     tr.appendChild(td);
     td2.appendChild(a)
     tr.appendChild(td2);
@@ -188,4 +188,9 @@ function completeRemove(element)
     while (element.firstChild) {
         element.removeChild(element.lastChild);
     }
+}
+
+function reworkDatetime(date)
+{
+    return "Ajouté le "+date.substring(8, 10)+" / "+date.substring(5, 7)+" / "+date.substring(0, 4)
 }
