@@ -80,6 +80,15 @@ function printTricks()
             }
             numberOfTricks = numberOfTricks+response.length;
 
+            //To print the confirm before suppression button
+            $("a.delete").click(function(e){
+                if(!confirm('Voulez-vous confirmer la suppression?')){
+                    e.preventDefault();
+                    return false;
+                }
+                return true;
+            });
+
             if (response.length < 15 ){
                 loadMoreButton.style.display = "none";
             } else {
@@ -124,37 +133,7 @@ function insertToDom(data, row)
 
     //If the user is logged print link
     if (myProfilLink != null) {
-        let divUserAction = createElement('div');
-        let aDelete = createElement('a');
-        let aModify = createElement('a');
-        let iDelete = createElement('i');
-        let iModify = createElement('i');
-
-        divUserAction.classList.add("d-flex");
-        divUserAction.classList.add("flex-row-reverse");
-
-        aDelete.classList.add("btn");
-        aDelete.classList.add("btn-danger");
-        aDelete.classList.add("m-2");
-        aDelete.classList.add("delete");
-        iDelete.classList.add("fas");
-        iDelete.classList.add("fa-trash-alt");
-
-        aDelete.href = Routing.generate('app_trick_delete', {id : data.id})
-
-        aModify.classList.add("btn");
-        aModify.classList.add("btn-success");
-        aModify.classList.add("m-2");
-        iModify.classList.add("fas");
-        iModify.classList.add("fa-pen");
-
-        aModify.href = Routing.generate('app_trick_modify', {slug : data.slug})
-
-        a.appendChild(divUserAction);
-        divUserAction.appendChild(aDelete);
-        divUserAction.appendChild(aModify);
-        aDelete.appendChild(iDelete);
-        aModify.appendChild(iModify);
+        addUserActionButtons(a, data)
     }
 }
 
@@ -172,4 +151,39 @@ function createRow(data)
 function createElement(name)
 {
     return document.createElement(name)
+}
+
+function addUserActionButtons(a, data)
+{
+    let divUserAction = createElement('div');
+    let aDelete = createElement('a');
+    let aModify = createElement('a');
+    let iDelete = createElement('i');
+    let iModify = createElement('i');
+
+    divUserAction.classList.add("d-flex");
+    divUserAction.classList.add("flex-row-reverse");
+
+    aDelete.classList.add("btn");
+    aDelete.classList.add("btn-danger");
+    aDelete.classList.add("m-2");
+    aDelete.classList.add("delete");
+    iDelete.classList.add("fas");
+    iDelete.classList.add("fa-trash-alt");
+
+    aDelete.href = Routing.generate('app_trick_delete', {id : data.id})
+
+    aModify.classList.add("btn");
+    aModify.classList.add("btn-success");
+    aModify.classList.add("m-2");
+    iModify.classList.add("fas");
+    iModify.classList.add("fa-pen");
+
+    aModify.href = Routing.generate('app_trick_modify', {slug : data.slug})
+
+    a.appendChild(divUserAction);
+    divUserAction.appendChild(aDelete);
+    divUserAction.appendChild(aModify);
+    aDelete.appendChild(iDelete);
+    aModify.appendChild(iModify);
 }
