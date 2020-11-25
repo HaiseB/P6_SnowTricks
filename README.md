@@ -60,10 +60,12 @@ _Run thoses commands_
 - To compile assets
 - ``npm run watch``
 
-`* If you choose to get the release ready data`
+```
+If you choose to get the release ready data
 You can sign in with
 - username : Demo
 - password : demodemo 
+```
 
 ## Build with
 - [Symfony 5](https://symfony.com/) - PHP framework
