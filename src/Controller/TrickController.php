@@ -95,7 +95,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{slug}/modify", name="app_trick_modify", methods={"GET"}, options={"expose"=true})
+     * @Route("/trick/{slug}/modify", name="app_trick_modify", methods={"GET", "POST"}, options={"expose"=true})
      */
     public function modify(EntityManagerInterface $em, Request $request, Trick $trick, PictureRepository $pictureRepository)
     {
